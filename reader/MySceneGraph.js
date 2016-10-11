@@ -239,8 +239,8 @@ MySceneGraph.prototype.parseDSX= function(rootElement) {
 	console.log("MATERIALS");
 
 	elems = rootElement.getElementsByTagName("materials");
-	error = this.checkElem(elems, "materials");
-	if (error != null) {return error;}
+	/*error = this.checkElem(elems, "materials");
+	if (error != null) {return error;}*/
 
 	var subelems = elems[0].getElementsByTagName("material");
 	for (var i = 0; i < subelems.length; i++) {
@@ -405,13 +405,90 @@ MySceneGraph.prototype.parseDSX= function(rootElement) {
 	for (var i = 0; i < subelems.length; i++) {
 		var id = this.reader.getString(subelems[i],"id",false);
 
+		console.log(id);
+
 		// transformation
+		var transformation = subelems[i].getElementsByTagName("transformation");
+		error = this.checkElem(transformation, "transformation");
+		if (error != null) {return error;}
+
+
+		
+		var transformationref = transformation[0].getElementsByTagName("transformationref");
+		error = this.checkElem(transformationref, "transformationref");
+		if (error == "either zero or more than one transformationref element found.") {			
+			var translate = transformation[0].getElementsByTagName("translate");
+			for (var j = 0; j < translate.length; j++) {
+				coord = [];
+				this.readXYZ(translate[j], coord);
+
+				console.log("translate "+coord[0]+", "+coord[1]+", "+coord[2]);
+			}
+
+			var rotate = transformation[0].getElementsByTagName("rotate");
+			for (var j = 0; j < rotate.length; j++) {
+				var axis = this.reader.getString(rotate[j], "axis", false);
+				var angle = this.reader.getFloat(rotate[j], "angle", false);
+
+				console.log("rotate "+axis+", "+angle);
+			}
+			
+			var scale = transformation[0].getElementsByTagName("scale");
+			for (var j = 0; j < scale.length; j++) {
+				coord = [];
+				this.readXYZ(scale[j], coord);
+
+				console.log("scale "+coord[0]+", "+coord[1]+", "+coord[2]);
+			}
+		}
+		else if (error == null) {
+			var id = this.reader.getString(transformationref[0],"id",false);
+
+			console.log("transformationref "+id);
+		}
+
 
 		// material
+		var materials = subelems[i].getElementsByTagName("materials");
+		error = this.checkElem(materials, "materials");
+		if (error != null) {return error;}
+
+		var material = materials[0].getElementsByTagName("material");
+		for (var j = 0; j < material.length; j++) {
+			var id = this.reader.getString(material[j],"id",false);
+	
+			console.log("material "+id);
+		}
+		
+
 
 		// texture
+		var texture = subelems[i].getElementsByTagName("texture");
+		error = this.checkElem(texture, "texture");
+		if (error != null) {return error;}
+
+		var id = this.reader.getString(texture[0],"id", false);
+		console.log("texture id "+id);
+
 
 		// children
+		var children = subelems[i].getElementsByTagName("children");
+		error = this.checkElem(children, "children");
+		if (error != null) {return error;}
+	
+		var componentref = children[0].getElementsByTagName("componentref");
+		for (var j = 0; j < componentref.length; j++) {
+			var id = this.reader.getString(componentref[j],"id",false);
+	
+			console.log("componentref "+id);
+		}
+
+		var primitiveref = children[0].getElementsByTagName("primitiveref");
+		for (var j = 0; j < primitiveref.length; j++) {
+			var id = this.reader.getString(primitiveref[j],"id",false);
+	
+			console.log("primitiveref "+id);
+		}
 		
 	}
 

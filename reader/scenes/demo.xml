@@ -17,7 +17,7 @@
 
     <!-- deve definir-se um objeto para raiz do grafo , assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
-    <scene root="hi" axis_length="5" />
+    <scene roots="hi" axis_length="5" />
     
     
     <views default="first" >
@@ -159,22 +159,22 @@
     
     <components>
         
-        <component id="ss">
+        <component id="comp1">
         
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
             
                 <!-- deve conter uma referencia a uma das "transformation" -->
                 <!-- declaradas anteriormente -->
-                <transformationref id="ss" />
+                <transformationref id="trans1" />
                 
                 <!-- ou, ALTERNATIVAMENTE, transformacoes explicitas, -->
                 <!-- usando zero ou mais das instrucoes seguintes, sem -->
                 <!-- limite nem ordem -->
                 <!-- ex: bloco transformation pode ficar sem conteudo -->
-                <translate x="ff" y="ff" z="ff" />
-                <rotate axis="cc" angle="ff" />
-                <scale x="ff" y="ff" z="ff" />
+                <translate x="2" y="3" z="2" />
+                <rotate axis="x" angle="180" />
+                <scale x="1" y="1.5" z="2.5" />
             </transformation>
        
             <!-- declaracao obrigatoria de pelo menos um material; -->
@@ -183,16 +183,17 @@
             <!-- primeiro material; de cada vez que se pressione a tecla m/M, -->
             <!-- o material muda para o proximo material da lista; do --> 
             <!-- ultimo material da lista volta ao primeiro -->
-            <material>
-                <material id="ss" />
-            </material>
+            <materials>
+                <material id="1" />
+                <material id="inherit" />
+            </materials>
                          
             <!-- declaracao obrigatoria de texture -->
             <!-- id="inherit" mantem (herda) a textura do objecto "pai" -->
             <!-- id="none" remove a textura recebida do pai -->
             <!-- a textura declarada sobrepoe a textura recebida do -->
             <!-- objecto "pai" -->
-            <texture id="ss" />
+            <texture id="1" />
             
             <!-- bloco "children" obrigatorio num "component" -->
             <children>
@@ -200,8 +201,8 @@
                 <!-- deve existir uma ou mais tags "componentref" e/ou -->
                 <!-- "primitiveref", identificando outros -->
                 <!-- componentes ou primitivas -->
-                <componentref id="ss" />
-                <primitiveref id="ss" />
+                <componentref id="2" />
+                <primitiveref id="1" />
                 
             </children>
             
