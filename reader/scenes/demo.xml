@@ -17,7 +17,7 @@
 
     <!-- deve definir-se um objeto para raiz do grafo , assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
-    <scene roots="hi" axis_length="5" />
+    <scene root="hi" axis_length="5" />
     
     
     <views default="first" >
@@ -32,7 +32,7 @@
             <to x="5" y="5" z="5" />
         </perspective>
 
-	<perspective id="second" near="15" far="15" angle="80">
+	   <perspective id="second" near="15" far="15" angle="80">
             <from x="0" y="0" z="0" />
             <to x="10" y="10" z="10" />
         </perspective>
