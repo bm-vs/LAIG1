@@ -15,7 +15,17 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 	 
-	this.reader.open('scenes/'+filename, this);  
+	this.reader.open('scenes/'+filename, this);
+
+	this.scene_info = new SceneInfo();
+	this.views_info = new ViewsInfo();
+	this.illumination_info = new IlluminationInfo();
+	this.lights_info = new LightsInfo();
+	this.textures_info = new TexturesInfo();
+	this.materials_info = new MaterialsInfo();
+	this.transformations_info = new TransformationsInfo();
+	this.primitives_info = new PrimitivesInfo();
+	this.components_info = new ComponentsInfo();
 }
 
 /*
@@ -46,26 +56,21 @@ MySceneGraph.prototype.onXMLReady=function()
  * Parses elements of one block and stores information in a specific data structure
  */
 
-/*
-TODO Check IDS
-	 material/materials
-*/
-
-
 MySceneGraph.prototype.parseDSX= function(rootElement) {
 
 	var scene_reader = new SceneReader(rootElement, this.reader);
 	
-	scene_reader.readScene();
-	scene_reader.readViews();
-	scene_reader.readIllumination();
-	scene_reader.readLights();
-	scene_reader.readTextures();
-	scene_reader.readMaterials();
-	scene_reader.readTransformations();
-	scene_reader.readPrimitives();
-	scene_reader.readComponents();
-	
+	scene_reader.readScene(this.scene_info);
+	scene_reader.readViews(this.views_info);
+	scene_reader.readIllumination(this.illumination_info);
+	scene_reader.readLights(this.lights_info);
+	scene_reader.readTextures(this.textures_info);
+	scene_reader.readMaterials(this.materials_info);
+	scene_reader.readTransformations(this.transformations_info);
+	scene_reader.readPrimitives(this.primitives_info);
+	scene_reader.readComponents(this.components_info);
+
+	this.printinfo();
 };
 
 
@@ -81,3 +86,45 @@ MySceneGraph.prototype.onXMLError=function (message) {
 };
 
 
+
+/*
+Print Info
+*/
+MySceneGraph.prototype.printinfo=function () {
+	console.log("======================================================================");
+	console.log("SCENE");
+	this.scene_info.print();
+
+	console.log("======================================================================");
+	console.log("VIEWS");
+	this.views_info.print();
+	
+	console.log("======================================================================");
+	console.log("ILLUMINATION");
+	this.illumination_info.print();
+
+	console.log("======================================================================");
+	console.log("LIGHTS");
+	this.lights_info.print();
+	
+	console.log("======================================================================");
+	console.log("TEXTURES");
+	this.textures_info.print();
+
+	console.log("======================================================================");
+	console.log("MATERIALS");
+	this.materials_info.print();
+
+	console.log("======================================================================");
+	console.log("TRANSFORMATIONS");
+	this.transformations_info.print();
+
+	console.log("======================================================================");
+	console.log("PRIMITIVES");
+	this.primitives_info.print();
+
+	console.log("======================================================================");
+	console.log("COMPONENTS");
+	this.components_info.print();
+	
+}

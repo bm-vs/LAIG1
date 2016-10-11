@@ -153,6 +153,20 @@
             <torus inner="1" outer="2" slices="6" loops="6" />
             
         </primitive>
+
+        <primitive id="p2">
+           
+            <!-- apenas pode existir UMA das seguintes tags: -->
+            <!--     rectangle, triangle, cylinder, sphere, torus -->
+            <!-- os parametros devem ser interpretados, genericamente como-->
+            <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
+            <rectangle x1="2" y1="2" x2="2" y2="2" />
+            <triangle x1="0" y1="2" z1="0" x2="2" y2="0" z2="0" x3="1" y3="2" z3="0" />
+            <cylinder base="1" top="2" height="3" slices="6" stacks="2" />
+            <sphere radius="2" slices="6" stacks="8" />
+            <torus inner="2" outer="2" slices="6" loops="6" />
+            
+        </primitive>
         
     </primitives>
     
