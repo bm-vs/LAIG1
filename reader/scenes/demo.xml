@@ -130,6 +130,9 @@
            <!-- deve existir pelo menos uma transformacao -->
            <translate x="3" y="2" z="2" />
            <rotate axis="y" angle="120" />
+           <translate x="3" y="6" z="1" />
+           <rotate axis="x" angle="190" />
+           <scale x="1" y="3" z="2" />
            <scale x="1" y="1" z="2" />
         </transformation>
         

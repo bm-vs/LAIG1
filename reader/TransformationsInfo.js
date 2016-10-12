@@ -19,16 +19,58 @@ TranformationInfo
 
 function TransformationInfo() {
 	this.id;
-	this.translate = new Vector();
-	this.scale = new Vector();
-	this.rotation_axis;
-	this.rotation_angle;
+	this.translations = [];
+	this.scalings = [];
+	this.rotations = [];
 }
 
 TransformationInfo.prototype.print= function() {
 	console.log(this.id);
-	console.log("translate "+this.translate.x+", "+this.translate.y+", "+this.translate.z);
-	console.log("rotate "+this.rotation_axis+", "+this.rotation_angle);
-	console.log("scale "+this.scale.x+", "+this.scale.y+", "+this.scale.z);
+	console.log("translations");
+	for (var i = 0; i < this.translations.length; i++) {
+		this.translations[i].print();
+	}
+	console.log("rotations");
+	for (var i = 0; i < this.rotations.length; i++) {
+		this.rotations[i].print();
+	}
+	console.log("scalings");
+	for (var i = 0; i < this.scalings.length; i++) {
+		this.scalings[i].print();
+	}
 
+}
+
+/*
+Translation
+*/
+function Translation() {
+	this.vector = new Vector();
+}
+
+Translation.prototype.print= function() {
+	console.log(this.vector.x+", "+this.vector.y+", "+this.vector.z);
+}
+
+/*
+Rotation
+*/
+function Rotation() {
+	this.axis;
+	this.angle;
+}
+
+Rotation.prototype.print= function() {
+	console.log(this.axis+", "+this.angle);
+}
+
+/*
+Scaling
+*/
+function Scaling() {
+	this.vector = new Vector();
+}
+
+Scaling.prototype.print= function() {
+	console.log(this.vector.x+", "+this.vector.y+", "+this.vector.z)
 }

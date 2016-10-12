@@ -66,37 +66,3 @@ ComponentInfo.prototype.print=function() {
 	}
 
 }
-
-/*
-Translation
-*/
-function Translation() {
-	this.vector = new Vector();
-}
-
-Translation.prototype.print= function() {
-	console.log(this.vector.x+", "+this.vector.y+", "+this.vector.z);
-}
-
-/*
-Rotation
-*/
-function Rotation() {
-	this.axis;
-	this.angle;
-}
-
-Rotation.prototype.print= function() {
-	console.log(this.axis+", "+this.angle);
-}
-
-/*
-Scaling
-*/
-function Scaling() {
-	this.vector = new Vector();
-}
-
-Scaling.prototype.print= function() {
-	console.log(this.vector.x+", "+this.vector.y+", "+this.vector.z)
-}

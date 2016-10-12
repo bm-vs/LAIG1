@@ -232,20 +232,29 @@ SceneReader.prototype.readTransformations= function(transformations_info) {
 		transformation.id = this.reader.getString(subelems[i],"id",false);
 
 		var translate = subelems[i].getElementsByTagName("translate");
-		error = this.checkElem(translate, "translate");
-		if (error != null) {return error;}
-		this.readXYZ(transformation.translate,translate[0],"");
+		for (var j = 0; j < translate.length; j++) {
+			translation = new Translation();
+			this.readXYZ(translation.vector,translate[j], "");
+
+			transformation.translations[j] = translation;
+		}
 
 		var rotate = subelems[i].getElementsByTagName("rotate");
-		error = this.checkElem(rotate, "rotate");
-		if (error != null) {return error;}
-		transformation.rotation_axis = this.reader.getString(rotate[0],"axis",false);
-		transformation.rotation_angle = this.reader.getFloat(rotate[0],"angle",false);
+		for (var j = 0; j < rotate.length; j++) {
+			rotation = new Rotation();
+			rotation.axis = this.reader.getString(rotate[j], "axis", false);
+			rotation.angle = this.reader.getFloat(rotate[j], "angle", false);
+
+			transformation.rotations[j] = rotation;
+		}
 
 		var scale = subelems[i].getElementsByTagName("scale");
-		error = this.checkElem(scale, "scale");
-		if (error != null) {return error;}
-		this.readXYZ(transformation.scale,scale[0],"");
+		for (var j = 0; j < scale.length; j++) {
+			scaling = new Scaling();
+			this.readXYZ(scaling.vector,scale[j], "");
+
+			transformation.scalings[j] = scaling;
+		}
 
 		transformations_info.transformations[i] = transformation;
 	}
