@@ -19,26 +19,24 @@ TranformationInfo
 
 function TransformationInfo() {
 	this.id;
-	this.translations = [];
-	this.scalings = [];
-	this.rotations = [];
+	this.transformations = [];
 }
 
 TransformationInfo.prototype.print= function() {
 	console.log(this.id);
-	console.log("translations");
-	for (var i = 0; i < this.translations.length; i++) {
-		this.translations[i].print();
-	}
-	console.log("rotations");
-	for (var i = 0; i < this.rotations.length; i++) {
-		this.rotations[i].print();
-	}
-	console.log("scalings");
-	for (var i = 0; i < this.scalings.length; i++) {
-		this.scalings[i].print();
-	}
+	for (var i = 0; i < this.transformations.length; i++) {
+		if (this.transformations[i] instanceof Translation) {
+			console.log("translation");
+		}
+		else if (this.transformations[i] instanceof Rotation) {
+			console.log("rotation");
+		}
+		else if (this.transformations[i] instanceof Scaling) {
+			console.log("scaling");
+		}
 
+		this.transformations[i].print();
+	}
 }
 
 /*

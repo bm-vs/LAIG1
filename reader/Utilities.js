@@ -20,3 +20,11 @@ function Color() {
     this.b;
     this.a;
 }
+
+/*
+DegToRad
+*/
+
+function DegToRad(deg) {
+    return deg*Math.PI/180.0;
+}

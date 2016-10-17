@@ -3,7 +3,7 @@
 ViewsInfo
 */
 function ViewsInfo() {
-    this.default_view;
+    this.default_view = -1;
     this.perspectives = [];
 }
 

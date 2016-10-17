@@ -5,9 +5,9 @@ SceneInfo
 */
 function SceneInfo() {
     this.root;
-    this.axis_lenght;
+    this.axis_length;
 }
 
 SceneInfo.prototype.print= function() {
-    console.log("Scene root="+this.root+"; Axis_length="+this.axis_lenght);
+    console.log("Scene root="+this.root+"; Axis_length="+this.axis_length);
 }

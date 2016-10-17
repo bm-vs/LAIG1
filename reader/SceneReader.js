@@ -24,7 +24,7 @@ SceneReader.prototype.readViews= function(views_info) {
 	error = this.checkElem(elems, "views");
 	if (error != null) {return error;}
 	
-	views_info.default_view = this.reader.getString(elems[0], "default", false);
+	var default_view = this.reader.getString(elems[0], "default", false);
 
 	var subelems = elems[0].getElementsByTagName("perspective");
 	for (var i = 0; i < subelems.length; i++) {
@@ -47,6 +47,13 @@ SceneReader.prototype.readViews= function(views_info) {
 
 		views_info.perspectives[i] = perspective;
 	}
+
+
+	for (var i = 0; i < views_info.perspectives.length; i++) {
+		if (views_info.perspectives[i].id == default_view) {
+			views_info.default_view = i;
+		}
+	}	
 }
 
 /*
@@ -231,29 +238,25 @@ SceneReader.prototype.readTransformations= function(transformations_info) {
 
 		transformation.id = this.reader.getString(subelems[i],"id",false);
 
-		var translate = subelems[i].getElementsByTagName("translate");
-		for (var j = 0; j < translate.length; j++) {
-			translation = new Translation();
-			this.readXYZ(translation.vector,translate[j], "");
+		var transformations = subelems[i].children;
 
-			transformation.translations[j] = translation;
-		}
-
-		var rotate = subelems[i].getElementsByTagName("rotate");
-		for (var j = 0; j < rotate.length; j++) {
-			rotation = new Rotation();
-			rotation.axis = this.reader.getString(rotate[j], "axis", false);
-			rotation.angle = this.reader.getFloat(rotate[j], "angle", false);
-
-			transformation.rotations[j] = rotation;
-		}
-
-		var scale = subelems[i].getElementsByTagName("scale");
-		for (var j = 0; j < scale.length; j++) {
-			scaling = new Scaling();
-			this.readXYZ(scaling.vector,scale[j], "");
-
-			transformation.scalings[j] = scaling;
+		for (var j = 0; j < transformations.length; j++) {
+			if (transformations[j].tagName == "translate") {
+				translation = new Translation();
+				this.readXYZ(translation.vector,transformations[j], "");
+				transformation.transformations[j] = translation;
+			}
+			else if (transformations[j].tagName == "rotate") {
+				rotation = new Rotation();
+				rotation.axis = this.reader.getString(transformations[j], "axis", false);
+				rotation.angle = this.reader.getFloat(transformations[j], "angle", false);
+				transformation.transformations[j] = rotation;
+			}
+			else if (transformations[j].tagName == "scale") {
+				scaling = new Scaling();
+				this.readXYZ(scaling.vector,transformations[j], "");
+				transformation.transformations[j] = scaling;
+			}
 		}
 
 		transformations_info.transformations[i] = transformation;
@@ -336,30 +339,31 @@ SceneReader.prototype.readComponents= function(components_info) {
 		
 		var transformationref = transformation[0].getElementsByTagName("transformationref");
 		error = this.checkElem(transformationref, "transformationref");
-		if (error == "either zero or more than one transformationref element found.") {			
-			var translate = transformation[0].getElementsByTagName("translate");
-			for (var j = 0; j < translate.length; j++) {
-				translation = new Translation();
-				this.readXYZ(translation.vector,translate[j], "");
 
-				component.translations[j] = translation;
-			}
-
-			var rotate = transformation[0].getElementsByTagName("rotate");
-			for (var j = 0; j < rotate.length; j++) {
-				rotation = new Rotation();
-				rotation.axis = this.reader.getString(rotate[j], "axis", false);
-				rotation.angle = this.reader.getFloat(rotate[j], "angle", false);
-
-				component.rotations[j] = rotation;
-			}
+		if (error == "either zero or more than one transformationref element found.") {
+			var component_transformation = new TransformationInfo();
 			
-			var scale = transformation[0].getElementsByTagName("scale");
-			for (var j = 0; j < scale.length; j++) {
-				scaling = new Scaling();
-				this.readXYZ(scaling.vector,scale[j], "");
+			var transformations = transformation[0].children;
+					
+			for (var j = 0; j < transformations.length; j++) {
+				if (transformations[j].tagName == "translate") {
+					translation = new Translation();
+					this.readXYZ(translation.vector,transformations[j], "");
+					component_transformation.transformations[j] = translation;
+				}
+				else if (transformations[j].tagName == "rotate") {
+					rotation = new Rotation();
+					rotation.axis = this.reader.getString(transformations[j], "axis", false);
+					rotation.angle = this.reader.getFloat(transformations[j], "angle", false);
+					component_transformation.transformations[j] = rotation;
+				}
+				else if (transformations[j].tagName == "scale") {
+					scaling = new Scaling();
+					this.readXYZ(scaling.vector,transformations[j], "");
+					component_transformation.transformations[j] = scaling;
+				}
 
-				component.scalings[j] = scaling;
+				component.transformations[j] = component_transformation;
 			}
 		}
 		else if (error == null) {

@@ -21,9 +21,7 @@ PrimitiveInfo
 function ComponentInfo() {
 	this.id;
 	this.transformationref = null;
-	this.translations = [];
-	this.rotations = [];
-	this.scalings = [];
+	this.transformations = [];
 	this.materials = [];
 	this.texture;
 	this.children_components = [];
@@ -36,17 +34,18 @@ ComponentInfo.prototype.print=function() {
 		console.log("transformationref "+this.transformationref);
 	}
 	else {
-		console.log("translations");
 		for (var i = 0; i < this.transformations.length; i++) {
-			this.translations[i].print();
-		}
-		console.log("rotations");
-		for (var i = 0; i < this.rotations.length; i++) {
-			this.rotations[i].print();
-		}
-		console.log("scalings");
-		for (var i = 0; i < this.scalings.length; i++) {
-			this.scalings[i].print();
+			if (this.transformations[i] instanceof Translation) {
+				console.log("translation");
+			}
+			else if (this.transformations[i] instanceof Rotation) {
+				console.log("rotation");
+			}
+			else if (this.transformations[i] instanceof Scaling) {
+				console.log("scaling");
+			}
+
+			this.transformations[i].print();
 		}
 	}
 
