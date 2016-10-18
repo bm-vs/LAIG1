@@ -20,20 +20,26 @@ PrimitiveInfo
 
 function PrimitiveInfo() {
 	this.id;
-	this.rectangle = new Rectangle();
-	this.triangle = new Triangle();
-	this.cylinder = new Cylinder();
-	this.sphere = new Sphere();
-	this.torus = new Torus();
+	this.primitive;
 }
 
 PrimitiveInfo.prototype.print= function() {
 	console.log(this.id);
-	console.log("rectangle "+this.rectangle.v1.x+", "+this.rectangle.v1.y+", "+this.rectangle.v2.x+", "+this.rectangle.v2.y);
-	console.log("triangle "+this.triangle.v1.x+", "+this.triangle.v1.y+", "+this.triangle.v1.z+", "+this.triangle.v2.x+", "+this.triangle.v2.y+", "+this.triangle.v2.z+", "+this.triangle.v3.x+", "+this.triangle.v3.y+", "+this.triangle.v3.z);
-	console.log("cylinder "+this.cylinder.base+", "+this.cylinder.top+", "+this.cylinder.height+", "+this.cylinder.slices+", "+this.cylinder.stacks);
-	console.log("sphere "+this.sphere.radius+", "+this.sphere.slices+", "+this.sphere.stacks);
-	console.log("torus "+this.torus.inner+", "+this.torus.outer+", "+this.torus.slices+", "+this.torus.loops);
+	if (this.primitive instanceof Rectangle) {
+		console.log("rectangle "+this.primitive.v1.x+", "+this.primitive.v1.y+", "+this.primitive.v2.x+", "+this.primitive.v2.y);
+	}
+	else if (this.primitive instanceof Triangle) {
+		console.log("triangle "+this.primitive.v1.x+", "+this.primitive.v1.y+", "+this.primitive.v1.z+", "+this.primitive.v2.x+", "+this.primitive.v2.y+", "+this.primitive.v2.z+", "+this.primitive.v3.x+", "+this.primitive.v3.y+", "+this.primitive.v3.z);
+	}
+	else if (this.primitive instanceof Cylinder) {
+		console.log("cylinder "+this.primitive.base+", "+this.primitive.top+", "+this.primitive.height+", "+this.primitive.slices+", "+this.primitive.stacks);
+	}
+	else if (this.primitive instanceof Sphere) {
+		console.log("sphere "+this.primitive.radius+", "+this.primitive.slices+", "+this.primitive.stacks);
+	}
+	else if (this.primitive instanceof Torus) {
+		console.log("torus "+this.primitive.inner+", "+this.primitive.outer+", "+this.primitive.slices+", "+this.primitive.loops);
+	}
 }
 
 

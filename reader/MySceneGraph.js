@@ -26,6 +26,8 @@ function MySceneGraph(filename, scene) {
 	this.transformations_info = new TransformationsInfo();
 	this.primitives_info = new PrimitivesInfo();
 	this.components_info = new ComponentsInfo();
+
+	this.graph;
 }
 
 /*
@@ -70,7 +72,8 @@ MySceneGraph.prototype.parseDSX= function(rootElement) {
 	scene_reader.readPrimitives(this.primitives_info);
 	scene_reader.readComponents(this.components_info);
 
-	this.printinfo();
+	this.graph = new Graph(this);
+	//this.printinfo();
 };
 
 

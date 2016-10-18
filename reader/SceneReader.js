@@ -273,47 +273,58 @@ SceneReader.prototype.readPrimitives= function(primitives_info) {
 
 	var subelems = elems[0].getElementsByTagName("primitive");
 	for (var i = 0; i < subelems.length; i++) {
-		primitive = new PrimitiveInfo();
+		var primitive = new PrimitiveInfo();
 
 		primitive.id = this.reader.getString(subelems[i],"id",false);
 
-		var rectangle = subelems[i].getElementsByTagName("rectangle");
-		error = this.checkElem(rectangle, "rectangle");
-		if (error != null) {return error;}
-		this.readXYZ(primitive.rectangle.v1,rectangle[0],"1");
-		this.readXYZ(primitive.rectangle.v2,rectangle[0],"2");
+		var prim = subelems[i].children;
 
+		if (prim.length != 1) {
+			// throw error
+			break;
+		}
+
+		var rectangle = subelems[i].getElementsByTagName("rectangle");
+		if (rectangle.length == 1) {
+			primitive.primitive = new Rectangle();
+			this.readXYZ(primitive.primitive.v1,rectangle[0],"1");
+			this.readXYZ(primitive.primitive.v2,rectangle[0],"2");
+		}
 		
 		var triangle = subelems[i].getElementsByTagName("triangle");
-		error = this.checkElem(triangle, "triangle");
-		if (error != null) {return error;}
-		this.readXYZ(primitive.triangle.v1,triangle[0],"1");
-		this.readXYZ(primitive.triangle.v2,triangle[0],"2");
-		this.readXYZ(primitive.triangle.v3,triangle[0],"3");
+		if (triangle.length == 1) {
+			primitive.primitive = new Triangle();
+			this.readXYZ(primitive.primitive.v1,triangle[0],"1");
+			this.readXYZ(primitive.primitive.v2,triangle[0],"2");
+			this.readXYZ(primitive.primitive.v3,triangle[0],"3");
+		}
 		
 		var cylinder = subelems[i].getElementsByTagName("cylinder");
-		error = this.checkElem(cylinder, "cylinder");
-		if (error != null) {return error;}
-		primitive.cylinder.base = this.reader.getFloat(cylinder[0], "base", false);
-		primitive.cylinder.top = this.reader.getFloat(cylinder[0], "top", false);
-		primitive.cylinder.height = this.reader.getFloat(cylinder[0], "height", false);
-		primitive.cylinder.slices = this.reader.getFloat(cylinder[0], "slices", false);
-		primitive.cylinder.stacks = this.reader.getFloat(cylinder[0], "stacks", false);
+		if (cylinder.length == 1) {
+			primitive.primitive = new Cylinder();
+			primitive.primitive.base = this.reader.getFloat(cylinder[0], "base", false);
+			primitive.primitive.top = this.reader.getFloat(cylinder[0], "top", false);
+			primitive.primitive.height = this.reader.getFloat(cylinder[0], "height", false);
+			primitive.primitive.slices = this.reader.getFloat(cylinder[0], "slices", false);
+			primitive.primitive.stacks = this.reader.getFloat(cylinder[0], "stacks", false);
+		}
 
 		var sphere = subelems[i].getElementsByTagName("sphere");
-		error = this.checkElem(sphere, "sphere");
-		if (error != null) {return error;}
-		primitive.sphere.radius = this.reader.getFloat(sphere[0], "radius", false);
-		primitive.sphere.slices = this.reader.getFloat(sphere[0], "slices", false);
-		primitive.sphere.stacks = this.reader.getFloat(sphere[0], "stacks", false);
+		if (sphere.length == 1) {
+			primitive.primitive = new Sphere();
+			primitive.primitive.radius = this.reader.getFloat(sphere[0], "radius", false);
+			primitive.primitive.slices = this.reader.getFloat(sphere[0], "slices", false);
+			primitive.primitive.stacks = this.reader.getFloat(sphere[0], "stacks", false);
+		}
 		
 		var torus = subelems[i].getElementsByTagName("torus");
-		error = this.checkElem(torus, "torus");
-		if (error != null) {return error;}
-		primitive.torus.inner = this.reader.getFloat(torus[0], "inner", false);
-		primitive.torus.outer = this.reader.getFloat(torus[0], "outer", false);
-		primitive.torus.slices = this.reader.getFloat(torus[0], "slices", false);
-		primitive.torus.loops = this.reader.getFloat(torus[0], "loops", false);
+		if (torus.length == 1) {
+			primitive.primitive = new Torus();
+			primitive.primitive.inner = this.reader.getFloat(torus[0], "inner", false);
+			primitive.primitive.outer = this.reader.getFloat(torus[0], "outer", false);
+			primitive.primitive.slices = this.reader.getFloat(torus[0], "slices", false);
+			primitive.primitive.loops = this.reader.getFloat(torus[0], "loops", false);
+		}
 
 		primitives_info.primitives[i] = primitive;
 	}
