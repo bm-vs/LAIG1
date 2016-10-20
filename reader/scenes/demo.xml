@@ -224,7 +224,7 @@
             <texture id="inherit" />
 
             <children>
-            	<primitiveref id="side_walls" />
+            	<primitiveref id="front_wall_tri" />
             </children>
         </component>
 
@@ -261,7 +261,7 @@
             <texture id="inherit" />
 
             <children>
-            	<primitiveref id="side_walls" />
+            	<primitiveref id="front_wall_tri" />
             </children>
         </component>
 

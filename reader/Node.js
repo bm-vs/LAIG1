@@ -83,22 +83,11 @@ Node.prototype.createMatrix = function(transformation) {
     return m;
 }
 
-Node.prototype.display = function() {/*
-    console.log(this.component_info.id);
-    for (var i = 0; i < this.matrix.length; i+=4) {
-        console.log(this.matrix[i], this.matrix[i+1],
-                   this.matrix[i+2], this.matrix[i+3]);
-    }
-*/
+Node.prototype.display = function() {
+
     this.scene.pushMatrix();
     //this.materials[0].apply();
     this.scene.multMatrix(this.matrix);
-
-/*
-    for (var i = 0; i < this.matrix.length; i+=4) {
-        console.log(this.matrix[i], this.matrix[i+1],
-                   this.matrix[i+2], this.matrix[i+3]);
-    }*/
 
     for (var i = 0; i < this.component_info.children_primitives.length; i++) {
         this.component_info.children_primitives[i].primitive.display();

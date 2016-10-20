@@ -296,15 +296,21 @@ SceneReader.prototype.readPrimitives= function(primitives_info) {
 			primitive.primitive = new Rectangle(this.scene_graph.scene, v1.x, v1.y, v2.x, v2.y);
 
 		}
-		/*
+		
 		var triangle = subelems[i].getElementsByTagName("triangle");
 		if (triangle.length == 1) {
-			primitive.primitive = new Triangle();
-			this.readXYZ(primitive.primitive.v1,triangle[0],"1");
-			this.readXYZ(primitive.primitive.v2,triangle[0],"2");
-			this.readXYZ(primitive.primitive.v3,triangle[0],"3");
+			var v1 = new Vector();
+			var v2 = new Vector();
+			var v3 = new Vector();
+
+			this.readXYZ(v1,triangle[0],"1");
+			this.readXYZ(v2,triangle[0],"2");
+			this.readXYZ(v3,triangle[0],"3");
+
+			primitive.primitive = new Triangle(this.scene_graph.scene, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z);
 		}
 		
+		/*
 		var cylinder = subelems[i].getElementsByTagName("cylinder");
 		if (cylinder.length == 1) {
 			primitive.primitive = new Cylinder();
