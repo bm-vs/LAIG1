@@ -46,7 +46,7 @@ PrimitiveInfo.prototype.print= function() {
 /*
 PrimitivesInfo
 */
-
+/*
 function Rectangle() {
 	this.v1 = new Vector();
 	this.v2 = new Vector();
@@ -77,4 +77,4 @@ function Torus() {
 	this.outer;
 	this.slices;
 	this.loops;
-}
+}*/

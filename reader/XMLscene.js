@@ -89,6 +89,8 @@ XMLscene.prototype.display = function () {
 		for (var i = 0; i < this.lights.length; i++) {
 			this.lights[i].update();
 		}
+
+		this.graph.display();
 	};	
 };
 

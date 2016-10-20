@@ -1,0 +1,14 @@
+TODO
+
+single transformation V
+multiple transformations V
+transformation ref V
+children/parent transformations V
+
+apply material
+change material m/M
+
+materials
+
+brush up code
+add remaining primitives

@@ -27,7 +27,7 @@ function MySceneGraph(filename, scene) {
 	this.primitives_info = new PrimitivesInfo();
 	this.components_info = new ComponentsInfo();
 
-	this.graph;
+	this.root;
 }
 
 /*
@@ -60,7 +60,7 @@ MySceneGraph.prototype.onXMLReady=function()
 
 MySceneGraph.prototype.parseDSX= function(rootElement) {
 
-	var scene_reader = new SceneReader(rootElement, this.reader);
+	var scene_reader = new SceneReader(rootElement, this.reader, this);
 	
 	scene_reader.readScene(this.scene_info);
 	scene_reader.readViews(this.views_info);
@@ -71,8 +71,9 @@ MySceneGraph.prototype.parseDSX= function(rootElement) {
 	scene_reader.readTransformations(this.transformations_info);
 	scene_reader.readPrimitives(this.primitives_info);
 	scene_reader.readComponents(this.components_info);
+	scene_reader.addChildrenToComponents(this.components_info);
 
-	this.graph = new Graph(this);
+	this.root = new Node(null, this.searchComponentByID(this.scene_info.root), this.scene);
 	//this.printinfo();
 };
 
@@ -89,6 +90,17 @@ MySceneGraph.prototype.onXMLError=function (message) {
 };
 
 
+MySceneGraph.prototype.searchComponentByID=function(id) {	
+    for (var i = 0; i < this.components_info.components.length; i++) {
+        if (this.components_info.components[i].id == id) {
+            return this.components_info.components[i];
+        }
+    }
+}
+
+MySceneGraph.prototype.display = function() {
+    this.root.display();
+}
 
 /*
 Print Info
