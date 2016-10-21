@@ -37,7 +37,7 @@ function Node(parent, component_info, scene) {
             this.materials[i] = new CGFappearance(scene);
             
             this.materials[i].setAmbient(m.ambient.r, m.ambient.g, m.ambient.b, m.ambient.a); 
-            this.materials[i].setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
+            //this.materials[i].setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
             this.materials[i].setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
             this.materials[i].setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
             this.materials[i].loadTexture(this.texture.file);
