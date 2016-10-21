@@ -16,6 +16,10 @@ XMLscene.prototype.init = function (application) {
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+    this.enableTextures(true);
+
+    this.initCameras();
+
 	this.axis=new CGFaxis(this);
 };
 
@@ -46,18 +50,6 @@ XMLscene.prototype.onGraphLoaded = function ()
 	
 	// Lights
 	this.setLights();
-	
-	/*
-	// Textures
-	this.textures = [];
-	for (var i = 0; i < this.graph.textures_info.textures.length; i++) {
-		this.textures[i] = new CGFappearance(this);
-
-		this.textures[i].loadTexture(this.graph.textures_info.textures[i].file);
-		this.textures[i].setTextureWrap(this.graph.textures_info.textures[i].length_s, this.graph.textures_info.textures[i].length_t);
-	}
-	*/
-
 };
 
 XMLscene.prototype.display = function () {
@@ -105,7 +97,7 @@ XMLscene.prototype.setCamera = function(action) {
 
 	var perspective = this.graph.views_info.perspectives[this.view_number];
 
-	var fov = DegToRad(perspective.angle);
+	var fov = degToRad(perspective.angle);
 	var near = perspective.near;
 	var far = perspective.far;
 	var positionx = perspective.from.x;

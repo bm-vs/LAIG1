@@ -5,7 +5,7 @@ multiple transformations V
 transformation ref V
 children/parent transformations V
 
-apply material
+apply material V
 change material m/M
 
 materials

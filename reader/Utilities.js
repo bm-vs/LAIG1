@@ -25,6 +25,6 @@ function Color() {
 DegToRad
 */
 
-function DegToRad(deg) {
+function degToRad(deg) {
     return deg*Math.PI/180.0;
 }

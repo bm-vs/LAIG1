@@ -17,12 +17,6 @@ function Node(parent, component_info, scene) {
         mat4.multiply(this.matrix,this.matrix,m);
     }
 
-    for (var i = 0; i < this.matrix.length; i+=4) {
-        console.log(this.matrix[i], this.matrix[i+1], this.matrix[i+2], this.matrix[i+3]);
-    }
-
-    console.log("");
-
     this.texture;
     if (component_info.texture == "inherit") {
         this.texture = parent.texture;
@@ -43,12 +37,13 @@ function Node(parent, component_info, scene) {
         
 
         this.materials[i] = new CGFappearance(scene);
-        this.materials[i].setAmbient(m.ambient.r, m.ambient.g, m.ambient.b, m.ambient.a);
-        this.materials[i].setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
-        this.materials[i].setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
-        this.materials[i].setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
+
+        //this.materials[i].setAmbient(m.ambient.r, m.ambient.g, m.ambient.b, m.ambient.a); 
+        //this.materials[i].setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
+        //this.materials[i].setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
+        //this.materials[i].setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
         this.materials[i].loadTexture(this.texture.file);
-        this.materials[i].setTextureWrap(this.texture.length_s, this.texture.length_t);
+        //this.materials[i].setTextureWrap(this.texture.length_s, this.texture.length_t);
     }
 
     this.children = [];
@@ -86,7 +81,7 @@ Node.prototype.createMatrix = function(transformation) {
 Node.prototype.display = function() {
 
     this.scene.pushMatrix();
-    //this.materials[0].apply();
+    this.materials[0].apply();
     this.scene.multMatrix(this.matrix);
 
     for (var i = 0; i < this.component_info.children_primitives.length; i++) {
