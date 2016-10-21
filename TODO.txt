@@ -4,11 +4,10 @@ single transformation V
 multiple transformations V
 transformation ref V
 children/parent transformations V
-
 apply material V
+materials V
+
 change material m/M
-
-materials
-
+child/parent materials
 brush up code
 add remaining primitives
