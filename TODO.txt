@@ -6,8 +6,10 @@ transformation ref V
 children/parent transformations V
 apply material V
 materials V
+finish primitives V
 
 change material m/M
 child/parent materials inherit material = parent material
-brush up code
-add remaining primitives
+
+brush up code/check dsx for validity
+turn on/off lights

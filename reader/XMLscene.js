@@ -104,7 +104,7 @@ XMLscene.prototype.setCamera = function(action) {
 	var targety = perspective.to.y;
 	var targetz = perspective.to.z;
 
-	this.camera = new CGFcamera(fov, near, far, vec3.fromValues(positionx, positiony, positionz), vec3.fromValues(targetx, targety, targetz));
+	//this.camera = new CGFcamera(fov, near, far, vec3.fromValues(positionx, positiony, positionz), vec3.fromValues(targetx, targety, targetz));
 }
 
 

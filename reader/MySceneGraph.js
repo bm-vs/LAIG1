@@ -17,9 +17,6 @@ function MySceneGraph(filename, scene) {
 	 
 	this.reader.open('scenes/'+filename, this);
 
-	// <scene>
-	
-	
 	this.scene_info = new SceneInfo();
 	this.views_info = new ViewsInfo();
 	this.illumination_info = new IlluminationInfo();

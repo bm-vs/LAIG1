@@ -144,12 +144,24 @@
         </primitive>
 
         <primitive id="chimney">
-			<cylinder base="0.1" top="0.1" height="0.5" slices="8" stacks="3" />
+			<cylinder base="0.1" top="0.1" height="0.4" slices="16" stacks="16" />
         </primitive>
 
 		<primitive id="smoke">
 			<torus inner="0.1" outer="0.15" slices="60" loops="60" />
 		</primitive>
+
+		<primitive id="sphere">
+			<sphere radius="0.3" slices="16" stacks="16" />
+		</primitive>
+
+		<primitive id="cylinder">
+			<cylinder base="0.2" top="0.5" height="2" slices="16" stacks="16" />
+        </primitive>
+
+        <primitive id="torus">
+			<torus inner="0.5" outer="1" slices="32" loops="32" />
+        </primitive>
     </primitives>
 
 
@@ -157,7 +169,7 @@
 
         <component id="root">
             <transformation>
-               <scale x="1.5" y="1.5" z="1.5" />
+               <scale x="2" y="2" z="2" />
             </transformation>
 
             <materials>
@@ -166,12 +178,11 @@
 
             <texture id="logs" />
 
-            <children> 
+            <children>
             	<componentref id="walls" />
-				<componentref id="roof" />
-				<!--<componentref id="chimney"/>-->
+				<componentref id="roof" /> 
+				<componentref id="chimney"/>
 				<componentref id="floor"/>
-				<primitiveref id="front_walls" />
             </children>
         </component>
 
@@ -356,7 +367,8 @@
 
         <component id="chimney">
             <transformation>
-                <translate x="0.75" y="1.25" z="1.5" />
+                <translate x="0.75" y="1.25" z="-1.5" />
+                <rotate axis="x" angle="90" />
             </transformation>
 
             <materials>
@@ -366,14 +378,15 @@
             <texture id="metal" />
 
             <children>
-            	<primitiveref id="side_walls" />
+            	<primitiveref id="chimney" />
             	<componentref id="smoke" />
             </children>
         </component>
 
         <component id="smoke">
             <transformation>
-            	<translate x="0" y="0.6" z="0" />
+            	<translate x="0" y="0" z="-0.2" />
+            	
             </transformation>
 
             <materials>
@@ -402,15 +415,15 @@
             <texture id="inherit" />
 
             <children>
-				<primitiveref id="side_walls" />
+				<primitiveref id="smoke" />
             </children>
 
         </component>
 
         <component id="smoke2">
 			<transformation>
-				<scale x="1.2" y="1" z="1.2" />
-            	<translate x="0" y="0.2" z="0" />
+				<scale x="1.2" y="1.2" z="1" />
+            	<translate x="0" y="0" z="-0.2" />
             	
             </transformation>
 
@@ -421,15 +434,15 @@
             <texture id="inherit" />
 
             <children>
-				<primitiveref id="side_walls" />
+				<primitiveref id="smoke" />
             </children>
 
         </component>
 
         <component id="smoke3">
 			<transformation>
-				<scale x="1.4" y="1" z="1.4" />
-            	<translate x="0" y="0.4" z="0" />
+				<scale x="1.4" y="1.4" z="1" />
+            	<translate x="0" y="0" z="-0.4" />
             	
             </transformation>
 
@@ -440,15 +453,15 @@
             <texture id="inherit" />
 
             <children>
-				<primitiveref id="side_walls" />
+				<primitiveref id="smoke" />
             </children>
 
         </component>
 
         <component id="smoke4">
 			<transformation>
-				<scale x="1.6" y="1" z="1.6" />
-            	<translate x="0" y="0.6" z="0" />
+				<scale x="1.6" y="1.6" z="1" />
+            	<translate x="0" y="0" z="-0.6" />
             	
             </transformation>
 
@@ -459,7 +472,7 @@
             <texture id="inherit" />
 
             <children>
-				<primitiveref id="side_walls" />
+				<primitiveref id="smoke" />
             </children>
 
         </component>

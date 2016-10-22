@@ -19,18 +19,18 @@ Cylinder.prototype.initBuffers = function() {
     this.vertices = [];
     this.indices = [];
     this.normals = [];
-    this.textCoords = [];
+    this.texCoords = [];
 
-    for (var stack = 0; stack < this.stack + 1; stack++) {
-       for (var slice = 0; slice < this.slices; slices++) {
+    for (var stack = 0; stack <= this.stacks; stack++) {
+       for (var slice = 0; slice < this.slices; slice++) {
            var h = this.height/this.stacks * stack;
 
-           var x1 = Math.cos(slice * angle);
-           var y1 = Math.cos(slice * angle);
+           var x1 = this.radius(stack)*Math.cos(slice * angle);
+           var y1 = this.radius(stack)*Math.sin(slice * angle);
 
            this.vertices.push(x1,y1,h);
            this.normals.push(x1,y1,0);
-           this.textCoords.push(slice/this.slices, stack/this.stacks);
+           this.texCoords.push(slice/this.slices, stack/this.stacks);
        }
     }
 
@@ -55,6 +55,65 @@ Cylinder.prototype.initBuffers = function() {
         }
     }
 
+    var vsize = this.vertices.length/3 - 1;
+
+    this.vertices.push(0,0,0);
+    this.texCoords.push(0.5, 0.5);
+    this.normals.push(0,0,-1);
+
+    for (var slice = 0; slice < this.slices; slice++) {
+        var x1 = this.base*Math.cos(slice * angle);
+        var y1 = this.base*Math.sin(slice * angle);
+
+        this.vertices.push(x1,y1,0);
+        this.normals.push(0,0,-1);
+        this.texCoords.push(Math.cos(slice * angle)/2+0.5, Math.sin(slice * angle)/2+0.5);
+    }
+
+    for (var slice = 1; slice <= this.slices; slice++) {
+        if (slice == this.slices) {
+            this.indices.push(vsize+1, vsize+2, vsize+1+slice);
+        }
+        else {
+            this.indices.push(vsize+1, vsize+2+slice, vsize+1+slice);
+        }
+    }
+
+
+
+
+    vsize = this.vertices.length/3 - 1;
+
+    this.vertices.push(0,0,this.height);
+    this.texCoords.push(0.5, 0.5);
+    this.normals.push(0,0,1);
+
+    for (var slice = 0; slice < this.slices; slice++) {
+        var x1 = this.top*Math.cos(slice * angle);
+        var y1 = this.top*Math.sin(slice * angle);
+
+        this.vertices.push(x1,y1,this.height);
+        this.texCoords.push(Math.cos(slice * angle)/2+0.5, Math.sin(slice * angle)/2+0.5);
+        this.normals.push(0,0,1);
+    }
+
+    for (var slice = 1; slice <= this.slices; slice++) {
+        if (slice == this.slices) {
+            this.indices.push(vsize+1, vsize+1+slice, vsize+2);
+        }
+        else {
+            this.indices.push(vsize+1, vsize+1+slice, vsize+2+slice);
+        }
+    }
+
+
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
+}
+
+Cylinder.prototype.radius = function(stack) {
+    var x = this.height/this.stacks * stack;
+    var m = (this.top-this.base)/this.height;
+
+    return m*x + this.base;
 }

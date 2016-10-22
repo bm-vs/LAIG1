@@ -13,8 +13,11 @@ function getUrlVars() {
 
 serialInclude([
 	'../lib/CGF.js',
+	'Primitives/Cylinder.js',
 	'Primitives/Rectangle.js',
 	'Primitives/Triangle.js',
+	'Primitives/Sphere.js',
+	'Primitives/Torus.js',
 	'Node.js',
 	'MyInterface.js',
 	'XMLscene.js',
