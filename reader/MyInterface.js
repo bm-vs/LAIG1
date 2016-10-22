@@ -19,6 +19,13 @@ MyInterface.prototype.processKeyboard = function(event) {
         case(86):
         case(118):
             this.scene.setCamera("change");
+            break;
+
+
+        case(77):
+        case(109):
+            this.scene.changeMaterials();
+            break;
     }
 
 

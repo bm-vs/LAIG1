@@ -27,23 +27,13 @@ function Node(parent, component_info, scene) {
 
     this.materials = [];
     for (var i = 0; i < component_info.materials.length; i++) {
-        var m;
-        if (component_info.materials[i] == "inherit") {
-            this.materials[i] = parent.materials[0];
-        }
-        else {
-            m = component_info.materials[i];  
-            
-            this.materials[i] = new CGFappearance(scene);
-            
-            this.materials[i].setAmbient(m.ambient.r, m.ambient.g, m.ambient.b, m.ambient.a); 
-            //this.materials[i].setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
-            this.materials[i].setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
-            this.materials[i].setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
-            this.materials[i].loadTexture(this.texture.file);
-            this.materials[i].setTextureWrap(this.texture.length_s, this.texture.length_t);
-        }
+        this.materials[i] = component_info.materials[i];
     }
+
+    this.current_material_pos = 0;
+    this.active_material;
+
+    this.setActiveMaterial();
 
     this.children = [];
     for (var i = 0; i < component_info.children_components.length; i++) {
@@ -80,7 +70,7 @@ Node.prototype.createMatrix = function(transformation) {
 Node.prototype.display = function() {
 
     this.scene.pushMatrix();
-    this.materials[0].apply();
+    this.active_material.apply();
     this.scene.multMatrix(this.matrix);
 
     for (var i = 0; i < this.component_info.children_primitives.length; i++) {
@@ -91,5 +81,31 @@ Node.prototype.display = function() {
 
     for (var i = 0; i < this.children.length; i++) {
         this.children[i].display();
+    }
+}
+
+Node.prototype.setActiveMaterial = function() {
+    if (this.materials[this.current_material_pos] == "inherit") {
+        this.active_material = this.parent.active_material;
+    }
+    else {
+        var m = this.component_info.materials[this.current_material_pos];  
+            
+        this.active_material = new CGFappearance(this.scene);
+        this.active_material.setAmbient(m.ambient.r, m.ambient.g, m.ambient.b, m.ambient.a); 
+        //this.active_material.setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
+        this.active_material.setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
+        this.active_material.setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
+        this.active_material.loadTexture(this.texture.file);
+        this.active_material.setTextureWrap(this.texture.length_s, this.texture.length_t);
+    }
+}
+
+Node.prototype.changeMaterial = function() {
+    this.current_material_pos = (this.current_material_pos+1)%this.materials.length;
+    this.setActiveMaterial();
+
+    for (var i = 0; i < this.children.length; i++) {
+        this.children[i].changeMaterial();
     }
 }

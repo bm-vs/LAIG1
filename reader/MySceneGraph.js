@@ -102,6 +102,10 @@ MySceneGraph.prototype.display = function() {
     this.root.display();
 }
 
+MySceneGraph.prototype.changeMaterials = function() {
+	this.root.changeMaterial();
+}
+
 /*
 Print Info
 */

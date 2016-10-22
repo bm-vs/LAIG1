@@ -78,25 +78,25 @@
     <materials>
         <material id="1">
             <emission r="0.5" g="0.5" b="0.5" a="1" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0" g="0" b="0" a="1" />
             <specular r="0" g="0" b="0" a="1" />
             <shininess value="20" />
         </material>
 
         <material id="2">
             <emission r="0.5" g="0.5" b="0.5" a="1" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1" />
-            <diffuse r="0.8" g="0.8" b="0.8" a="1" />
-            <specular r="0" g="0" b="0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />
             <shininess value="120" />
         </material>
 
         <material id="3">
             <emission r="0.3" g="0.3" b="0.3" a="1" />
-            <ambient r="0.7" g="0.7" b="0.7" a="1" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
-            <specular r="0.6" g="0.6" b="0.6" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
             <shininess value="50" />
         </material>
 
@@ -372,7 +372,7 @@
             </transformation>
 
             <materials>
-                <material id="3" />
+                <material id="1" />
             </materials>
 
             <texture id="metal" />
@@ -390,7 +390,8 @@
             </transformation>
 
             <materials>
-                <material id="4" />
+                <material id="inherit" />
+                <material id="2" />
             </materials>
 
             <texture id="smoke" />
@@ -410,6 +411,7 @@
 
             <materials>
                 <material id="inherit" />
+                <material id="3" />
             </materials>
 
             <texture id="inherit" />

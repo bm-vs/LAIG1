@@ -148,3 +148,7 @@ XMLscene.prototype.setLights = function() {
 		n++;
 	}
 }
+
+XMLscene.prototype.changeMaterials = function() {
+	this.graph.changeMaterials();
+}
