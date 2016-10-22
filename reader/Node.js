@@ -12,6 +12,7 @@ function Node(parent, component_info, scene) {
     }
     
     for (var i = component_info.transformations.length - 1; i >= 0; i--) {
+    //for (var i = 0; i < component_info.transformations.length; i++) {
         var m = this.createMatrix(component_info.transformations[i]);
         
         mat4.multiply(this.matrix,this.matrix,m);
@@ -92,8 +93,9 @@ Node.prototype.setActiveMaterial = function() {
         var m = this.component_info.materials[this.current_material_pos];  
             
         this.active_material = new CGFappearance(this.scene);
+        
         this.active_material.setAmbient(m.ambient.r, m.ambient.g, m.ambient.b, m.ambient.a); 
-        //this.active_material.setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
+        this.active_material.setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
         this.active_material.setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
         this.active_material.setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
         this.active_material.loadTexture(this.texture.file);
