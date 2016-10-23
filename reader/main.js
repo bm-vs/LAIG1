@@ -31,7 +31,6 @@ serialInclude([
 	'ReadInfo/LightsInfo.js',
 	'ReadInfo/IlluminationInfo.js',
 	'ReadInfo/ViewsInfo.js',
-	'ReadInfo/SceneInfo.js',
 	'MySceneGraph.js', 
 
 main=function()

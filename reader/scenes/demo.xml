@@ -2,7 +2,6 @@
 
     <scene root="root" axis_length="5" />
 
-
     <views default="first" >
         <perspective id="first" near="0.1" far="500" angle="90">
             <from x="5" y="5" z="2" />

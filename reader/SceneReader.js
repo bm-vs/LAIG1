@@ -1,19 +1,18 @@
-function SceneReader(rootElement, reader, scene_graph) {
+function SceneReader(rootElement, scene_graph) {
     this.rootElement = rootElement;
-    this.reader = reader;
+    this.reader = scene_graph.reader;
     this.scene_graph = scene_graph;
 }
 
 /*
 Read Scene
 */
-SceneReader.prototype.readScene= function(scene_info) {	
+SceneReader.prototype.readScene= function() {
 	var elems =  this.rootElement.getElementsByTagName("scene");
-	var error = this.checkElem(elems, "scene");
-	if (error != null) {return error;}
+	this.checkNumber(elems, "scene");
 
-	scene_info.root = this.reader.getString(elems[0], "root", false);
-	scene_info.axis_length = this.reader.getFloat(elems[0], "axis_length", false);
+	this.scene_graph.root_id = this.reader.getString(elems[0], "root", true);
+	this.scene_graph.axis_length = this.reader.getFloat(elems[0], "axis_length", true);
 }
 
 
@@ -527,4 +526,10 @@ SceneReader.prototype.readRGBA= function(color,node,suffix) {
 
 SceneReader.prototype.degToRad = function(deg) {
 	return deg*Math.PI/180.0;
+}
+
+SceneReader.prototype.checkNumber = function(elems, tag) {
+	if (elems.length != 1) {
+		throw new Error("Zero or than one " + tag + " tags.");
+	}
 }

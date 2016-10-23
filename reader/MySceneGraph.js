@@ -16,8 +16,10 @@ function MySceneGraph(filename, scene) {
 	 */
 	 
 	this.reader.open('scenes/'+filename, this);
+	
+	this.root_id;
+	this.axis_length;
 
-	this.scene_info = new SceneInfo();
 	this.views_info = new ViewsInfo();
 	this.illumination_info = new IlluminationInfo();
 	this.lights_info = new LightsInfo();
@@ -60,9 +62,9 @@ MySceneGraph.prototype.onXMLReady=function()
 
 MySceneGraph.prototype.parseDSX= function(rootElement) {
 
-	var scene_reader = new SceneReader(rootElement, this.reader, this);
+	var scene_reader = new SceneReader(rootElement, this);
 	
-	scene_reader.readScene(this.scene_info);
+	scene_reader.readScene();
 	scene_reader.readViews(this.views_info);
 	scene_reader.readIllumination(this.illumination_info);
 	scene_reader.readLights(this.lights_info);
@@ -73,7 +75,7 @@ MySceneGraph.prototype.parseDSX= function(rootElement) {
 	scene_reader.readComponents(this.components_info);
 	scene_reader.addChildrenToComponents(this.components_info);
 
-	this.root = new Node(null, this.searchComponentByID(this.scene_info.root), this.scene);
+	this.root = new Node(null, this.searchComponentByID(this.root_id), this.scene);
 	//this.printinfo();
 };
 
@@ -110,10 +112,6 @@ MySceneGraph.prototype.changeMaterials = function() {
 Print Info
 */
 MySceneGraph.prototype.printinfo=function () {
-	console.log("======================================================================");
-	console.log("SCENE");
-	this.scene_info.print();
-
 	console.log("======================================================================");
 	console.log("VIEWS");
 	this.views_info.print();
