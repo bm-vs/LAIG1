@@ -168,7 +168,7 @@
 
         <component id="root">
             <transformation>
-               <scale x="2" y="2" z="2" />
+               <transformationref id="transformation1" />
             </transformation>
 
             <materials>

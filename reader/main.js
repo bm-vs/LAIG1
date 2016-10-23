@@ -23,14 +23,7 @@ serialInclude([
 	'XMLscene.js',
 	'SceneReader.js',
 	'Utilities.js',
-	'ReadInfo/ComponentsInfo.js',
-	'ReadInfo/PrimitivesInfo.js',
-	'ReadInfo/TransformationsInfo.js',
-	'ReadInfo/MaterialsInfo.js',
-	'ReadInfo/TexturesInfo.js',
-	'ReadInfo/LightsInfo.js',
-	'ReadInfo/IlluminationInfo.js',
-	'ReadInfo/ViewsInfo.js',
+	'ReadInfo.js',
 	'MySceneGraph.js', 
 
 main=function()

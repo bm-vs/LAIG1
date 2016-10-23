@@ -86,7 +86,7 @@ SceneReader.prototype.readIllumination= function(illumination) {
 /*
 Read Lights
 */
-SceneReader.prototype.readLights= function(lights_info) {
+SceneReader.prototype.readLights= function() {
 	elems = this.rootElement.getElementsByTagName("lights");
 	error = this.checkElem(elems, "lights");
 	if (error != null) {return error;}
@@ -118,7 +118,7 @@ SceneReader.prototype.readLights= function(lights_info) {
 		if (error != null) {return error;}
 		this.readRGBA(light.specular,specular[0],"");
 
-		lights_info.omni_lights[i] = light;	
+		this.scene_graph.omni_lights[i] = light;	
 	}
 		
 
@@ -156,7 +156,7 @@ SceneReader.prototype.readLights= function(lights_info) {
 		if (error != null) {return error;}
 		this.readRGBA(light.specular,specular[0],"");
 
-		lights_info.spot_lights[i] = light;	
+		this.scene_graph.spot_lights[i] = light;	
 	}
 }
 
@@ -165,7 +165,7 @@ SceneReader.prototype.readLights= function(lights_info) {
 /*
 Read Textures
 */
-SceneReader.prototype.readTextures= function(textures_info) {
+SceneReader.prototype.readTextures= function() {
 	elems = this.rootElement.getElementsByTagName("textures");
 	error = this.checkElem(elems, "textures");
 	if (error != null) {return error;}
@@ -179,14 +179,14 @@ SceneReader.prototype.readTextures= function(textures_info) {
 		texture.length_s= this.reader.getFloat(subelems[i],"length_s", true);
 		texture.length_t = this.reader.getFloat(subelems[i],"length_t", true);
 
-		textures_info.textures[i] = texture;
+		this.scene_graph.textures[i] = texture;
 	}
 }
 
 /*
 Read Materials
 */
-SceneReader.prototype.readMaterials= function(materials_info) {
+SceneReader.prototype.readMaterials= function() {
     
     elems = this.rootElement.getElementsByTagName("materials");
 	/*
@@ -224,14 +224,14 @@ SceneReader.prototype.readMaterials= function(materials_info) {
 		if (error != null) {return error;}
 		material.shininess = this.reader.getFloat(shininess[0], "value", true);
 
-		materials_info.materials[i] = material;
+		this.scene_graph.materials[i] = material;
 	}
 }
 
 /*
 Read Tranformations
 */
-SceneReader.prototype.readTransformations= function(transformations_info) {
+SceneReader.prototype.readTransformations= function() {
 	elems = this.rootElement.getElementsByTagName("transformations");
 	error = this.checkElem(elems, "transformations");
 	if (error != null) {return error;}
@@ -263,14 +263,14 @@ SceneReader.prototype.readTransformations= function(transformations_info) {
 			}
 		}
 
-		transformations_info.transformations[i] = transformation;
+		this.scene_graph.transformations[i] = transformation;
 	}
 }
 
 /*
 Read Primitives
 */
-SceneReader.prototype.readPrimitives= function(primitives_info) {
+SceneReader.prototype.readPrimitives= function() {
     elems = this.rootElement.getElementsByTagName("primitives");
 	error = this.checkElem(elems, "primitives");
 	if (error != null) {return error;}
@@ -345,14 +345,14 @@ SceneReader.prototype.readPrimitives= function(primitives_info) {
 			primitive.primitive = new Torus(this.scene_graph.scene, inner, outer, slices, loops);
 		}
 
-		primitives_info.primitives[i] = primitive;
+		this.scene_graph.primitives[i] = primitive;
 	}
 }
 
 /*
 Read Components
 */
-SceneReader.prototype.readComponents= function(components_info) {
+SceneReader.prototype.readComponents= function() {
     elems = this.rootElement.getElementsByTagName("components");
 	error = this.checkElem(elems, "components");
 	if (error != null) {return error;}
@@ -399,10 +399,10 @@ SceneReader.prototype.readComponents= function(components_info) {
 		else if (error == null) {
 			component.transformationref = this.reader.getString(transformationref[0],"id",true);
 
-			for (var k = 0; k < this.scene_graph.transformations_info.transformations.length; k++) {
-				if (component.transformationref == this.scene_graph.transformations_info.transformations[k].id) {
-					for (var j = 0; j < this.scene_graph.transformations_info.transformations[k].transformations.length; j++) {
-						component.transformations[j] = this.scene_graph.transformations_info.transformations[k].transformations[j];	
+			for (var k = 0; k < this.scene_graph.transformations.length; k++) {
+				if (component.transformationref == this.scene_graph.transformations[k].id) {
+					for (var j = 0; j < this.scene_graph.transformations[k].transformations.length; j++) {
+						component.transformations[j] = this.scene_graph.transformations[k].transformations[j];	
 					}
 				}
 			}
@@ -421,9 +421,9 @@ SceneReader.prototype.readComponents= function(components_info) {
 				component.materials[j] = "inherit";
 			}
 
-			for (var k = 0; k < this.scene_graph.materials_info.materials.length; k++) {
-				if (m == this.scene_graph.materials_info.materials[k].id) {
-					component.materials[j] = this.scene_graph.materials_info.materials[k];
+			for (var k = 0; k < this.scene_graph.materials.length; k++) {
+				if (m == this.scene_graph.materials[k].id) {
+					component.materials[j] = this.scene_graph.materials[k];
 				}
 			}
 		}
@@ -443,9 +443,9 @@ SceneReader.prototype.readComponents= function(components_info) {
 		}
 
 
-		for (var k = 0; k < this.scene_graph.textures_info.textures.length; k++) {
-			if (t == this.scene_graph.textures_info.textures[k].id) {
-				component.texture = this.scene_graph.textures_info.textures[k];
+		for (var k = 0; k < this.scene_graph.textures.length; k++) {
+			if (t == this.scene_graph.textures[k].id) {
+				component.texture = this.scene_graph.textures[k];
 			}
 		}
 
@@ -458,9 +458,9 @@ SceneReader.prototype.readComponents= function(components_info) {
 		for (var j = 0; j < primitiveref.length; j++) {
 			var p = this.reader.getString(primitiveref[j],"id",true);
 
-			for (var k = 0; k < this.scene_graph.primitives_info.primitives.length; k++) {
-				if (p == this.scene_graph.primitives_info.primitives[k].id) {
-					component.children_primitives[j] = this.scene_graph.primitives_info.primitives[k];
+			for (var k = 0; k < this.scene_graph.primitives.length; k++) {
+				if (p == this.scene_graph.primitives[k].id) {
+					component.children_primitives[j] = this.scene_graph.primitives[k];
 				}
 			}			
 		}
@@ -471,7 +471,7 @@ SceneReader.prototype.readComponents= function(components_info) {
 			component.children_components[j] = this.reader.getString(componentref[j],"id",true);
 		}
 
-		components_info.components[i] = component;
+		this.scene_graph.components[i] = component;
 	}
 }
 
@@ -479,12 +479,12 @@ SceneReader.prototype.readComponents= function(components_info) {
 /*
 Swap the children_components ids of a component with the actual children
 */
-SceneReader.prototype.addChildrenToComponents = function(components_info) {
-	for (var i = 0; i < components_info.components.length; i++) {
-		for (var j = 0; j < components_info.components[i].children_components.length; j++) {
-			for (var k = 0; k < components_info.components.length; k++) {
-				if (components_info.components[k].id == components_info.components[i].children_components[j]) {
-					components_info.components[i].children_components[j] = components_info.components[k];					
+SceneReader.prototype.addChildrenToComponents = function() {
+	for (var i = 0; i < this.scene_graph.components.length; i++) {
+		for (var j = 0; j < this.scene_graph.components[i].children_components.length; j++) {
+			for (var k = 0; k < this.scene_graph.components.length; k++) {
+				if (this.scene_graph.components[k].id == this.scene_graph.components[i].children_components[j]) {
+					this.scene_graph.components[i].children_components[j] = this.scene_graph.components[k];					
 				}
 			}
 		}

@@ -118,10 +118,10 @@ XMLscene.prototype.setLights = function() {
 	this.lights_ids = [];
 	var n = 0;
 
-	for (var i = 0; i < this.graph.lights_info.omni_lights.length; i++) {
-		var light = this.graph.lights_info.omni_lights[i];
+	for (var i = 0; i < this.graph.omni_lights.length; i++) {
+		var light = this.graph.omni_lights[i];
 
-		this.lights_ids[n] = this.graph.lights_info.omni_lights[i].id;
+		this.lights_ids[n] = this.graph.omni_lights[i].id;
 
 		this.lights[n].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);
 		this.lights[n].setAmbient(light.ambient.r,light.ambient.g,light.ambient.b,light.ambient.a);
@@ -164,10 +164,10 @@ XMLscene.prototype.setLights = function() {
 		n++;
 	}
 
-	for (var i = 0; i < this.graph.lights_info.spot_lights.length; i++) {
-		var light = this.graph.lights_info.spot_lights[i];
+	for (var i = 0; i < this.graph.spot_lights.length; i++) {
+		var light = this.graph.spot_lights[i];
 
-		this.lights_ids[n] = this.graph.lights_info.spot_lights[i].id;
+		this.lights_ids[n] = this.graph.spot_lights[i].id;
 
 		this.lights[n].setSpotCutOff(light.angle);
 		this.lights[n].setSpotDirection(light.target.x, light.target.y, light.target.z);
