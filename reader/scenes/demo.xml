@@ -168,7 +168,8 @@
 
         <component id="root">
             <transformation>
-               <transformationref id="transformation1" />
+               <!--<transformationref id="transformation1" />-->
+            	<scale x="2" y="2" z="2" />
             </transformation>
 
             <materials>
@@ -394,7 +395,7 @@
                 <material id="2" />
             </materials>
 
-            <texture id="smoke" />
+            <texture id="none" />
 
             <children>
             	<componentref id="smoke1"/>
@@ -414,7 +415,7 @@
                 <material id="3" />
             </materials>
 
-            <texture id="inherit" />
+            <texture id="shingles" />
 
             <children>
 				<primitiveref id="smoke" />
@@ -433,7 +434,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="inherit" />
+            <texture id="shingles" />
 
             <children>
 				<primitiveref id="smoke" />
@@ -452,7 +453,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="inherit" />
+            <texture id="shingles" />
 
             <children>
 				<primitiveref id="smoke" />
@@ -471,7 +472,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="inherit" />
+            <texture id="shingles" />
 
             <children>
 				<primitiveref id="smoke" />

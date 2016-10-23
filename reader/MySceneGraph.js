@@ -94,11 +94,6 @@ MySceneGraph.prototype.parseDSX= function(rootElement) {
 	scene_reader.addChildrenToComponents();
 
 	this.root = new Node(null, this.searchComponentByID(this.root_id), this.scene);
-
-	if (this.root.getNumberOfNodes() != this.components.length) {
-		console.warn("WARNING: nr. of components on dsx different from nr. of components on scene graph.");
-		console.warn("Check to make sure every component is a descent of the root component.");
-	}
 };
 
 

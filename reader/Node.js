@@ -68,26 +68,37 @@ Node.prototype.createMatrix = function(transformation) {
     return m;
 }
 
-Node.prototype.display = function() {
-
+Node.prototype.display = function() {    
     this.scene.pushMatrix();
-    this.active_material.apply();
     this.scene.multMatrix(this.matrix);
+
+    this.active_material.apply();
 
     for (var i = 0; i < this.component_info.children_primitives.length; i++) {
         this.component_info.children_primitives[i].primitive.display();
     }
     
     this.scene.popMatrix();
-
+    
     for (var i = 0; i < this.children.length; i++) {
         this.children[i].display();
     }
+
+    
+
+   
 }
 
 Node.prototype.setActiveMaterial = function() {
     if (this.materials[this.current_material_pos] == "inherit") {
-        this.active_material = this.parent.active_material;
+        var m = this.parent.active_material;
+        this.active_material = new CGFappearance(this.scene);
+        
+        this.active_material.setAmbient(m.ambient[0], m.ambient[1], m.ambient[2], m.ambient[3]); 
+        this.active_material.setEmission(m.emission[0], m.emission[1], m.emission[2], m.emission[3]);
+        this.active_material.setDiffuse(m.diffuse[0], m.diffuse[1], m.diffuse[2], m.diffuse[3]);
+        this.active_material.setSpecular(m.specular[0], m.specular[1], m.specular[2], m.specular[3]);
+        //this.active_material.setTextureWrap(this.texture.length_s, this.texture.length_t);       
     }
     else {
         var m = this.component_info.materials[this.current_material_pos];  
@@ -98,8 +109,14 @@ Node.prototype.setActiveMaterial = function() {
         this.active_material.setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
         this.active_material.setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
         this.active_material.setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
+        //this.active_material.setTextureWrap(this.texture.length_s, this.texture.length_t);
+    }
+
+    if (this.texture == "none") {
+        this.active_material.setTexture(null);
+    }
+    else {
         this.active_material.loadTexture(this.texture.file);
-        this.active_material.setTextureWrap(this.texture.length_s, this.texture.length_t);
     }
 }
 
@@ -113,11 +130,19 @@ Node.prototype.changeMaterial = function() {
 }
 
 Node.prototype.getNumberOfNodes = function() {
-    var sum = 0;
-    
+    sum = 0;
+
     for (var i = 0; i < this.children.length; i++) {
         sum += this.children[i].getNumberOfNodes();
     }
 
     return sum + 1;
+}
+
+Node.prototype.printTree = function(string) {
+    console.log(string+this.component_info.id+" ");
+
+    for (var i = 0; i < this.children.length; i++) {
+        this.children[i].printTree(string+"    ");
+    }
 }

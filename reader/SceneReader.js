@@ -102,6 +102,11 @@ SceneReader.prototype.readLights= function() {
 	elems = this.rootElement.getElementsByTagName("lights");
 	error = this.checkElem(elems, "lights");
 	if (error != null) {return error;}
+
+	var n = elems[0].children.length;
+	if (n > 8) {
+		throw Error("Too many lights. Max. handled: 8.");
+	}
 	
 	var subelems = elems[0].getElementsByTagName("omni");
 	for (var i = 0; i < subelems.length; i++) {
@@ -418,7 +423,7 @@ Read Components
 */
 SceneReader.prototype.readComponents= function() {
 	var ids = [];
-	
+
     elems = this.rootElement.getElementsByTagName("components");
 	error = this.checkElem(elems, "components");
 	if (error != null) {return error;}
@@ -507,11 +512,11 @@ SceneReader.prototype.readComponents= function() {
 		else if (t == "none") {
 			component.texture = "none";
 		}
-
-
-		for (var k = 0; k < this.scene_graph.textures.length; k++) {
-			if (t == this.scene_graph.textures[k].id) {
-				component.texture = this.scene_graph.textures[k];
+		else {
+			for (var k = 0; k < this.scene_graph.textures.length; k++) {
+				if (t == this.scene_graph.textures[k].id) {
+					component.texture = this.scene_graph.textures[k];
+				}
 			}
 		}
 
