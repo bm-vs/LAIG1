@@ -91,13 +91,13 @@ XMLscene.prototype.display = function () {
 
 XMLscene.prototype.setCamera = function(action) {
 	if (action == "change") {
-		this.view_number = (this.view_number + 1) % this.graph.views_info.perspectives.length;
+		this.view_number = (this.view_number + 1) % this.graph.views.length;
 	}
 	else if (action == "default") {
-		this.view_number = this.graph.views_info.default_view;
+		this.view_number = this.graph.default_view;
 	}
 
-	var perspective = this.graph.views_info.perspectives[this.view_number];
+	var perspective = this.graph.views[this.view_number];
 
 	var fov = degToRad(perspective.angle);
 	var near = perspective.near;

@@ -9,7 +9,8 @@ Read Scene
 */
 SceneReader.prototype.readScene= function() {
 	var elems =  this.rootElement.getElementsByTagName("scene");
-	this.checkNumber(elems, "scene");
+	error = this.checkElem(elems, "scene");
+	if (error != null) {return error;}
 
 	this.scene_graph.root_id = this.reader.getString(elems[0], "root", true);
 	this.scene_graph.axis_length = this.reader.getFloat(elems[0], "axis_length", true);
@@ -19,21 +20,21 @@ SceneReader.prototype.readScene= function() {
 /*
 Read Views
 */
-SceneReader.prototype.readViews= function(views_info) {
+SceneReader.prototype.readViews= function() {
 	elems = this.rootElement.getElementsByTagName("views");
 	error = this.checkElem(elems, "views");
 	if (error != null) {return error;}
 	
-	var default_view = this.reader.getString(elems[0], "default", false);
+	var default_view = this.reader.getString(elems[0], "default", true);
 
 	var subelems = elems[0].getElementsByTagName("perspective");
 	for (var i = 0; i < subelems.length; i++) {
         var perspective = new PerspectiveInfo();
 
-		perspective.id = this.reader.getString(subelems[i],"id",false);
-		perspective.near = this.reader.getFloat(subelems[i],"near",false);
-		perspective.far = this.reader.getFloat(subelems[i],"far",false);
-		perspective.angle = this.reader.getFloat(subelems[i],"angle",false);
+		perspective.id = this.reader.getString(subelems[i],"id",true);
+		perspective.near = this.reader.getFloat(subelems[i],"near",true);
+		perspective.far = this.reader.getFloat(subelems[i],"far",true);
+		perspective.angle = this.reader.getFloat(subelems[i],"angle",true);
 
 		var from = subelems[i].getElementsByTagName("from");
 		error = this.checkElem(from, "from");
@@ -45,15 +46,18 @@ SceneReader.prototype.readViews= function(views_info) {
 		if (error != null) {return error;}
 		this.readXYZ(perspective.to, to[0], "");
 
-		views_info.perspectives[i] = perspective;
+		this.scene_graph.views[i] = perspective;
 	}
 
 
-	for (var i = 0; i < views_info.perspectives.length; i++) {
-		if (views_info.perspectives[i].id == default_view) {
-			views_info.default_view = i;
+	for (var i = 0; i < this.scene_graph.views.length; i++) {
+		if (this.scene_graph.views[i].id == default_view) {
+			this.scene_graph.default_view = i;
+			return;
 		}
-	}	
+	}
+
+	throw new Error("Default view not found.");
 }
 
 /*
@@ -64,8 +68,8 @@ SceneReader.prototype.readIllumination= function(illumination) {
 	error = this.checkElem(elems, "illumination");
 	if (error != null) {return error;}
 
-	illumination.doublesided = this.reader.getBoolean(elems[0],"doublesided",false);
-	illumination.local = this.reader.getBoolean(elems[0],"local",false);
+	illumination.doublesided = this.reader.getBoolean(elems[0],"doublesided",true);
+	illumination.local = this.reader.getBoolean(elems[0],"local",true);
 
 	var ambient = elems[0].getElementsByTagName("ambient");
 	error = this.checkElem(ambient, "ambient");
@@ -91,8 +95,8 @@ SceneReader.prototype.readLights= function(lights_info) {
 	for (var i = 0; i < subelems.length; i++) {
 		var light = new OmniLightsInfo();
 
-		light.id = this.reader.getString(subelems[i],"id",false);
-		light.enabled = this.reader.getBoolean(subelems[i],"enabled",false);
+		light.id = this.reader.getString(subelems[i],"id",true);
+		light.enabled = this.reader.getBoolean(subelems[i],"enabled",true);
 
 		var location = subelems[i].getElementsByTagName("location");
 		error = this.checkElem(location, "location");
@@ -122,10 +126,10 @@ SceneReader.prototype.readLights= function(lights_info) {
 	for (var i = 0; i < subelems.length; i++) {
 		var light = new SpotLightsInfo();
 
-		light.id = this.reader.getString(subelems[i],"id",false);
-		light.enabled = this.reader.getBoolean(subelems[i],"enabled",false);
-		light.angle = this.reader.getFloat(subelems[i],"angle", false);
-		light.exponent = this.reader.getFloat(subelems[i],"exponent", false);
+		light.id = this.reader.getString(subelems[i],"id",true);
+		light.enabled = this.reader.getBoolean(subelems[i],"enabled",true);
+		light.angle = this.reader.getFloat(subelems[i],"angle", true);
+		light.exponent = this.reader.getFloat(subelems[i],"exponent", true);
 
 		var target = subelems[i].getElementsByTagName("target");
 		error = this.checkElem(target, "target");
@@ -170,10 +174,10 @@ SceneReader.prototype.readTextures= function(textures_info) {
 	for (var i = 0; i < subelems.length; i++) {
 		var texture = new TextureInfo();
 
-		texture.id = this.reader.getString(subelems[i],"id",false);
-		texture.file = this.reader.getString(subelems[i],"file",false);
-		texture.length_s= this.reader.getFloat(subelems[i],"length_s", false);
-		texture.length_t = this.reader.getFloat(subelems[i],"length_t", false);
+		texture.id = this.reader.getString(subelems[i],"id",true);
+		texture.file = this.reader.getString(subelems[i],"file",true);
+		texture.length_s= this.reader.getFloat(subelems[i],"length_s", true);
+		texture.length_t = this.reader.getFloat(subelems[i],"length_t", true);
 
 		textures_info.textures[i] = texture;
 	}
@@ -193,7 +197,7 @@ SceneReader.prototype.readMaterials= function(materials_info) {
 	for (var i = 0; i < subelems.length; i++) {
 		var material = new MaterialInfo();
 
-		material.id = this.reader.getString(subelems[i],"id",false);
+		material.id = this.reader.getString(subelems[i],"id",true);
 		
 		var emission = subelems[i].getElementsByTagName("emission");
 		error = this.checkElem(emission, "emission");
@@ -218,7 +222,7 @@ SceneReader.prototype.readMaterials= function(materials_info) {
 		var shininess = subelems[i].getElementsByTagName("shininess");
 		error = this.checkElem(shininess, "shininess");
 		if (error != null) {return error;}
-		material.shininess = this.reader.getFloat(shininess[0], "value", false);
+		material.shininess = this.reader.getFloat(shininess[0], "value", true);
 
 		materials_info.materials[i] = material;
 	}
@@ -236,7 +240,7 @@ SceneReader.prototype.readTransformations= function(transformations_info) {
 	for (var i = 0; i < subelems.length; i++) {
 		transformation = new TransformationInfo();
 
-		transformation.id = this.reader.getString(subelems[i],"id",false);
+		transformation.id = this.reader.getString(subelems[i],"id",true);
 
 		var transformations = subelems[i].children;
 
@@ -248,8 +252,8 @@ SceneReader.prototype.readTransformations= function(transformations_info) {
 			}
 			else if (transformations[j].tagName == "rotate") {
 				rotation = new Rotation();
-				rotation.axis = this.reader.getString(transformations[j], "axis", false);
-				rotation.angle = this.degToRad(this.reader.getFloat(transformations[j], "angle", false));
+				rotation.axis = this.reader.getString(transformations[j], "axis", true);
+				rotation.angle = this.degToRad(this.reader.getFloat(transformations[j], "angle", true));
 				transformation.transformations[j] = rotation;
 			}
 			else if (transformations[j].tagName == "scale") {
@@ -275,7 +279,7 @@ SceneReader.prototype.readPrimitives= function(primitives_info) {
 	for (var i = 0; i < subelems.length; i++) {
 		var primitive = new PrimitiveInfo();
 
-		primitive.id = this.reader.getString(subelems[i],"id",false);
+		primitive.id = this.reader.getString(subelems[i],"id",true);
 
 		var prim = subelems[i].children;
 
@@ -312,11 +316,11 @@ SceneReader.prototype.readPrimitives= function(primitives_info) {
 		
 		var cylinder = subelems[i].getElementsByTagName("cylinder");
 		if (cylinder.length == 1) {
-			var base = this.reader.getFloat(cylinder[0], "base", false);
-			var top = this.reader.getFloat(cylinder[0], "top", false);
-			var height = this.reader.getFloat(cylinder[0], "height", false);
-			var slices = this.reader.getFloat(cylinder[0], "slices", false);
-			var stacks = this.reader.getFloat(cylinder[0], "stacks", false);
+			var base = this.reader.getFloat(cylinder[0], "base", true);
+			var top = this.reader.getFloat(cylinder[0], "top", true);
+			var height = this.reader.getFloat(cylinder[0], "height", true);
+			var slices = this.reader.getFloat(cylinder[0], "slices", true);
+			var stacks = this.reader.getFloat(cylinder[0], "stacks", true);
 
 			primitive.primitive = new Cylinder(this.scene_graph.scene, base, top, slices, stacks, height);
 		}
@@ -324,19 +328,19 @@ SceneReader.prototype.readPrimitives= function(primitives_info) {
 
 		var sphere = subelems[i].getElementsByTagName("sphere");
 		if (sphere.length == 1) {
-			var radius = this.reader.getFloat(sphere[0], "radius", false);
-			var slices = this.reader.getFloat(sphere[0], "slices", false);
-			var stacks = this.reader.getFloat(sphere[0], "stacks", false);
+			var radius = this.reader.getFloat(sphere[0], "radius", true);
+			var slices = this.reader.getFloat(sphere[0], "slices", true);
+			var stacks = this.reader.getFloat(sphere[0], "stacks", true);
 
 			primitive.primitive = new Sphere(this.scene_graph.scene, radius, slices, stacks);
 		}
 		
 		var torus = subelems[i].getElementsByTagName("torus");
 		if (torus.length == 1) {
-			var inner = this.reader.getFloat(torus[0], "inner", false);
-			var outer = this.reader.getFloat(torus[0], "outer", false);
-			var slices = this.reader.getFloat(torus[0], "slices", false);
-			var loops = this.reader.getFloat(torus[0], "loops", false);
+			var inner = this.reader.getFloat(torus[0], "inner", true);
+			var outer = this.reader.getFloat(torus[0], "outer", true);
+			var slices = this.reader.getFloat(torus[0], "slices", true);
+			var loops = this.reader.getFloat(torus[0], "loops", true);
 
 			primitive.primitive = new Torus(this.scene_graph.scene, inner, outer, slices, loops);
 		}
@@ -357,7 +361,7 @@ SceneReader.prototype.readComponents= function(components_info) {
 	for (var i = 0; i < subelems.length; i++) {
 		component = new ComponentInfo();
 
-		component.id = this.reader.getString(subelems[i],"id",false);
+		component.id = this.reader.getString(subelems[i],"id",true);
 
 		var transformation = subelems[i].getElementsByTagName("transformation");
 		error = this.checkElem(transformation, "transformation");
@@ -379,8 +383,8 @@ SceneReader.prototype.readComponents= function(components_info) {
 				}
 				else if (transformations[j].tagName == "rotate") {
 					rotation = new Rotation();
-					rotation.axis = this.reader.getString(transformations[j], "axis", false);
-					rotation.angle = this.degToRad(this.reader.getFloat(transformations[j], "angle", false));
+					rotation.axis = this.reader.getString(transformations[j], "axis", true);
+					rotation.angle = this.degToRad(this.reader.getFloat(transformations[j], "angle", true));
 					component_transformation[j] = rotation;
 				}
 				else if (transformations[j].tagName == "scale") {
@@ -393,7 +397,7 @@ SceneReader.prototype.readComponents= function(components_info) {
 			}
 		}
 		else if (error == null) {
-			component.transformationref = this.reader.getString(transformationref[0],"id",false);
+			component.transformationref = this.reader.getString(transformationref[0],"id",true);
 
 			for (var k = 0; k < this.scene_graph.transformations_info.transformations.length; k++) {
 				if (component.transformationref == this.scene_graph.transformations_info.transformations[k].id) {
@@ -411,7 +415,7 @@ SceneReader.prototype.readComponents= function(components_info) {
 
 		var material = materials[0].getElementsByTagName("material");
 		for (var j = 0; j < material.length; j++) {
-			var m = this.reader.getString(material[j],"id",false);
+			var m = this.reader.getString(material[j],"id",true);
 
 			if (m == "inherit") {
 				component.materials[j] = "inherit";
@@ -429,7 +433,7 @@ SceneReader.prototype.readComponents= function(components_info) {
 		var texture = subelems[i].getElementsByTagName("texture");
 		error = this.checkElem(texture, "texture");
 		if (error != null) {return error;}
-		var t = this.reader.getString(texture[0],"id", false);
+		var t = this.reader.getString(texture[0],"id", true);
 
 		if (t == "inherit") {
 			component.texture = "inherit";
@@ -452,7 +456,7 @@ SceneReader.prototype.readComponents= function(components_info) {
 
 		var primitiveref = children[0].getElementsByTagName("primitiveref");
 		for (var j = 0; j < primitiveref.length; j++) {
-			var p = this.reader.getString(primitiveref[j],"id",false);
+			var p = this.reader.getString(primitiveref[j],"id",true);
 
 			for (var k = 0; k < this.scene_graph.primitives_info.primitives.length; k++) {
 				if (p == this.scene_graph.primitives_info.primitives[k].id) {
@@ -464,7 +468,7 @@ SceneReader.prototype.readComponents= function(components_info) {
 	
 		var componentref = children[0].getElementsByTagName("componentref");
 		for (var j = 0; j < componentref.length; j++) {
-			component.children_components[j] = this.reader.getString(componentref[j],"id",false);
+			component.children_components[j] = this.reader.getString(componentref[j],"id",true);
 		}
 
 		components_info.components[i] = component;
@@ -518,18 +522,12 @@ SceneReader.prototype.readXYZ= function(vector,node,suffix) {
 Read r,g,b,a
 */
 SceneReader.prototype.readRGBA= function(color,node,suffix) {
-	color.r = this.reader.getFloat(node,"r"+suffix, false);
-	color.g = this.reader.getFloat(node,"g"+suffix, false);
-	color.b = this.reader.getFloat(node,"b"+suffix, false);
-	color.a = this.reader.getFloat(node,"a"+suffix, false);
+	color.r = this.reader.getFloat(node,"r"+suffix, true);
+	color.g = this.reader.getFloat(node,"g"+suffix, true);
+	color.b = this.reader.getFloat(node,"b"+suffix, true);
+	color.a = this.reader.getFloat(node,"a"+suffix, true);
 }
 
 SceneReader.prototype.degToRad = function(deg) {
 	return deg*Math.PI/180.0;
-}
-
-SceneReader.prototype.checkNumber = function(elems, tag) {
-	if (elems.length != 1) {
-		throw new Error("Zero or than one " + tag + " tags.");
-	}
 }

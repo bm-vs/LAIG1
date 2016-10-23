@@ -17,10 +17,16 @@ function MySceneGraph(filename, scene) {
 	 
 	this.reader.open('scenes/'+filename, this);
 	
+	// <scene>
 	this.root_id;
 	this.axis_length;
 
-	this.views_info = new ViewsInfo();
+	// <views>
+	this.default_view = -1;
+	this.views = [];
+	
+	
+
 	this.illumination_info = new IlluminationInfo();
 	this.lights_info = new LightsInfo();
 	this.textures_info = new TexturesInfo();

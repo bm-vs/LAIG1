@@ -1,18 +1,4 @@
 //==============================================================================================================================================================
-/*
-ViewsInfo
-*/
-function ViewsInfo() {
-    this.default_view = -1;
-    this.perspectives = [];
-}
-
-ViewsInfo.prototype.print= function() {
-    console.log("Default view="+this.default_view);
-	for (var i = 0; i < this.perspectives.length; i++) {
-		this.perspectives[i].print();
-	}
-}
 
 // PerspectiveInfo
 function PerspectiveInfo() {
