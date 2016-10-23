@@ -1,6 +1,7 @@
 
 function XMLscene() {
     CGFscene.call(this);
+    this.interface;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -47,6 +48,8 @@ XMLscene.prototype.onGraphLoaded = function ()
 	
 	// Lights
 	this.setLights();
+
+	this.interface.onGraphLoaded();
 };
 
 XMLscene.prototype.display = function () {
@@ -75,6 +78,8 @@ XMLscene.prototype.display = function () {
 	// This is one possible way to do it
 	if (this.graph.loadedOk)
 	{
+		this.updateLights();
+		
 		for (var i = 0; i < this.lights.length; i++) {
 			this.lights[i].update();
 		}
@@ -109,10 +114,14 @@ XMLscene.prototype.setCamera = function(action) {
 
 
 XMLscene.prototype.setLights = function() {
+	this.light1 = null; this.light2 = null; this.light3 = null; this.light4 = null; this.light5 = null; this.light6 = null; this.light7 = null; this.light8 = null;
+	this.lights_ids = [];
 	var n = 0;
 
 	for (var i = 0; i < this.graph.lights_info.omni_lights.length; i++) {
 		var light = this.graph.lights_info.omni_lights[i];
+
+		this.lights_ids[n] = this.graph.lights_info.omni_lights[i].id;
 
 		this.lights[n].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);
 		this.lights[n].setAmbient(light.ambient.r,light.ambient.g,light.ambient.b,light.ambient.a);
@@ -125,11 +134,40 @@ XMLscene.prototype.setLights = function() {
 			this.lights[n].enable();
 		}
 
+		switch(n) {
+			case 0:
+				this.light1 = light.enabled;
+				break;
+			case 1:
+				this.light2 = light.enabled;
+				break;
+			case 2:
+				this.light3 = light.enabled;
+				break;
+			case 3:
+				this.light4 = light.enabled;
+				break;
+			case 4:
+				this.light5 = light.enabled;
+				break;
+			case 5:
+				this.light6 = light.enabled;
+				break;
+			case 6:
+				this.light7 = light.enabled;
+				break;
+			case 7:
+				this.light8 = light.enabled;
+				break;
+		}
+
 		n++;
 	}
 
 	for (var i = 0; i < this.graph.lights_info.spot_lights.length; i++) {
 		var light = this.graph.lights_info.spot_lights[i];
+
+		this.lights_ids[n] = this.graph.lights_info.spot_lights[i].id;
 
 		this.lights[n].setSpotCutOff(light.angle);
 		this.lights[n].setSpotDirection(light.target.x, light.target.y, light.target.z);
@@ -145,10 +183,64 @@ XMLscene.prototype.setLights = function() {
 			this.lights[n].enable();
 		}
 
+		switch(n) {
+			case 0:
+				this.light1 = light.enabled;
+				break;
+			case 1:
+				this.light2 = light.enabled;
+				break;
+			case 2:
+				this.light3 = light.enabled;
+				break;
+			case 3:
+				this.light4 = light.enabled;
+				break;
+			case 4:
+				this.light5 = light.enabled;
+				break;
+			case 5:
+				this.light6 = light.enabled;
+				break;
+			case 6:
+				this.light7 = light.enabled;
+				break;
+			case 7:
+				this.light8 = light.enabled;
+				break;
+		}
+
 		n++;
 	}
 }
 
 XMLscene.prototype.changeMaterials = function() {
 	this.graph.changeMaterials();
+}
+
+
+XMLscene.prototype.updateLights = function() {
+	if (this.light1) { this.lights[0].enable(); }
+	else { this.lights[0].disable(); }
+
+	if (this.light2) { this.lights[1].enable(); }
+	else { this.lights[1].disable(); }
+
+	if (this.light3) { this.lights[2].enable(); }
+	else { this.lights[2].disable(); }
+
+	if (this.light4) { this.lights[3].enable(); }
+	else { this.lights[3].disable(); }
+
+	if (this.light5) { this.lights[4].enable(); }
+	else { this.lights[4].disable(); }
+
+	if (this.light6) { this.lights[5].enable(); }
+	else { this.lights[5].disable(); }
+
+	if (this.light7) { this.lights[6].enable(); }
+	else { this.lights[6].disable(); }
+
+	if (this.light8) { this.lights[7].enable(); }
+	else { this.lights[7].disable(); }
 }

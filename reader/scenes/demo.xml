@@ -183,6 +183,7 @@
 				<componentref id="roof" /> 
 				<componentref id="chimney"/>
 				<componentref id="floor"/>
+				<componentref id="sphere" />
             </children>
         </component>
 
@@ -496,7 +497,23 @@
             <children>
             	<primitiveref id="floor" />
             </children>
-        </component>        
+        </component>
+
+        <component id="sphere">
+            <transformation>
+				<translate x="1.3" y="0.3" z="2.3" />
+            </transformation>
+
+            <materials>
+                <material id="1" />
+            </materials>
+
+            <texture id="logs" />
+
+            <children>
+            	<primitiveref id="sphere" />
+            </children>
+        </component>    
 
 
 

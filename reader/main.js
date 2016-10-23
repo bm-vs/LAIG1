@@ -42,6 +42,8 @@ main=function()
     var myScene = new XMLscene();
     var myInterface = new MyInterface();
 
+    myScene.interface = myInterface;
+
     app.init();
 
     app.setScene(myScene);
