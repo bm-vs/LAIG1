@@ -111,3 +111,13 @@ Node.prototype.changeMaterial = function() {
         this.children[i].changeMaterial();
     }
 }
+
+Node.prototype.getNumberOfNodes = function() {
+    var sum = 0;
+    
+    for (var i = 0; i < this.children.length; i++) {
+        sum += this.children[i].getNumberOfNodes();
+    }
+
+    return sum + 1;
+}
