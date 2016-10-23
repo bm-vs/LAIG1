@@ -21,6 +21,8 @@ SceneReader.prototype.readScene= function() {
 Read Views
 */
 SceneReader.prototype.readViews= function() {
+	var ids = [];
+
 	elems = this.rootElement.getElementsByTagName("views");
 	error = this.checkElem(elems, "views");
 	if (error != null) {return error;}
@@ -47,6 +49,13 @@ SceneReader.prototype.readViews= function() {
 		this.readXYZ(perspective.to, to[0], "");
 
 		this.scene_graph.views[i] = perspective;
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == perspective.id) {
+				throw new Error("Repeated IDs in <views>.");
+			}
+		}
+
+		ids[i] = perspective.id;
 	}
 
 
@@ -87,6 +96,9 @@ SceneReader.prototype.readIllumination= function(illumination) {
 Read Lights
 */
 SceneReader.prototype.readLights= function() {
+	var n = 0;
+	var ids = [];
+
 	elems = this.rootElement.getElementsByTagName("lights");
 	error = this.checkElem(elems, "lights");
 	if (error != null) {return error;}
@@ -118,7 +130,15 @@ SceneReader.prototype.readLights= function() {
 		if (error != null) {return error;}
 		this.readRGBA(light.specular,specular[0],"");
 
-		this.scene_graph.omni_lights[i] = light;	
+		this.scene_graph.omni_lights[i] = light;
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == light.id) {
+				throw new Error("Repeated IDs in <lights>.");
+			}
+		}
+		ids[n] = light.id;
+
+		n++;
 	}
 		
 
@@ -156,7 +176,16 @@ SceneReader.prototype.readLights= function() {
 		if (error != null) {return error;}
 		this.readRGBA(light.specular,specular[0],"");
 
-		this.scene_graph.spot_lights[i] = light;	
+		this.scene_graph.spot_lights[i] = light;
+
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == light.id) {
+				throw new Error("Repeated IDs in <lights>.");
+			}
+		}
+		ids[n] = light.id;
+
+		n++;
 	}
 }
 
@@ -166,6 +195,8 @@ SceneReader.prototype.readLights= function() {
 Read Textures
 */
 SceneReader.prototype.readTextures= function() {
+	var ids = [];
+
 	elems = this.rootElement.getElementsByTagName("textures");
 	error = this.checkElem(elems, "textures");
 	if (error != null) {return error;}
@@ -180,6 +211,13 @@ SceneReader.prototype.readTextures= function() {
 		texture.length_t = this.reader.getFloat(subelems[i],"length_t", true);
 
 		this.scene_graph.textures[i] = texture;
+
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == texture.id) {
+				throw new Error("Repeated IDs in <textures>.");
+			}
+		}
+		ids[i] = texture.id;
 	}
 }
 
@@ -187,6 +225,7 @@ SceneReader.prototype.readTextures= function() {
 Read Materials
 */
 SceneReader.prototype.readMaterials= function() {
+	var ids = [];
     
     elems = this.rootElement.getElementsByTagName("materials");
 	/*
@@ -225,6 +264,13 @@ SceneReader.prototype.readMaterials= function() {
 		material.shininess = this.reader.getFloat(shininess[0], "value", true);
 
 		this.scene_graph.materials[i] = material;
+
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == material.id) {
+				throw new Error("Repeated IDs in <materials>.");
+			}
+		}
+		ids[i] = material.id;
 	}
 }
 
@@ -232,6 +278,8 @@ SceneReader.prototype.readMaterials= function() {
 Read Tranformations
 */
 SceneReader.prototype.readTransformations= function() {
+	var ids = [];
+
 	elems = this.rootElement.getElementsByTagName("transformations");
 	error = this.checkElem(elems, "transformations");
 	if (error != null) {return error;}
@@ -264,6 +312,13 @@ SceneReader.prototype.readTransformations= function() {
 		}
 
 		this.scene_graph.transformations[i] = transformation;
+
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == transformation.id) {
+				throw new Error("Repeated IDs in <transformations>.");
+			}
+		}
+		ids[i] = transformation.id;
 	}
 }
 
@@ -271,6 +326,8 @@ SceneReader.prototype.readTransformations= function() {
 Read Primitives
 */
 SceneReader.prototype.readPrimitives= function() {
+	var ids = [];
+
     elems = this.rootElement.getElementsByTagName("primitives");
 	error = this.checkElem(elems, "primitives");
 	if (error != null) {return error;}
@@ -284,7 +341,7 @@ SceneReader.prototype.readPrimitives= function() {
 		var prim = subelems[i].children;
 
 		if (prim.length != 1) {
-			// throw error
+			throw new Error("More than one primitive in <primitive> block");
 			break;
 		}
 
@@ -346,6 +403,13 @@ SceneReader.prototype.readPrimitives= function() {
 		}
 
 		this.scene_graph.primitives[i] = primitive;
+
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == primitive.id) {
+				throw new Error("Repeated IDs in <primitives>.");
+			}
+		}
+		ids[i] = primitive.id;
 	}
 }
 
@@ -353,6 +417,8 @@ SceneReader.prototype.readPrimitives= function() {
 Read Components
 */
 SceneReader.prototype.readComponents= function() {
+	var ids = [];
+	
     elems = this.rootElement.getElementsByTagName("components");
 	error = this.checkElem(elems, "components");
 	if (error != null) {return error;}
@@ -472,6 +538,13 @@ SceneReader.prototype.readComponents= function() {
 		}
 
 		this.scene_graph.components[i] = component;
+
+		for (var j = 0; j < ids.length; j++) {
+			if (ids[j] == component.id) {
+				throw new Error("Repeated IDs in <components>.");
+			}
+		}
+		ids[i] = component.id;
 	}
 }
 
