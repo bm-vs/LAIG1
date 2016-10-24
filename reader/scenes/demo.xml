@@ -75,7 +75,8 @@
 	    <texture id="logs" file="scenes/textures/logs.jpg" length_s="1" length_t="1" /> 
 	    <texture id="sand" file="scenes/textures/sand.jpg" length_s="1" length_t="1" /> 
 	    <texture id="smoke" file="scenes/textures/smoke.jpg" length_s="1" length_t="1" /> 
-	    <texture id="shingles" file="scenes/textures/shingles.jpg" length_s="1" length_t="2" />        
+	    <texture id="shingles" file="scenes/textures/shingles.jpg" length_s="1" length_t="2" />
+	    <texture id="ball" file="scenes/textures/ball.jpg" length_s="1" length_t="1" />      
     </textures>
 
 
@@ -144,7 +145,7 @@
         </primitive>
 
         <primitive id="roof">
-            <rectangle x1="0.0" y1="0.0" x2="0.7" y2="2.0" />
+            <rectangle x1="0.0" y1="0.0" x2="0.71" y2="2.0" />
         </primitive>
 
         <primitive id="chimney">
@@ -507,7 +508,7 @@
                 <material id="1" />
             </materials>
 
-            <texture id="logs" />
+            <texture id="ball" />
 
             <children>
             	<primitiveref id="sphere" />
