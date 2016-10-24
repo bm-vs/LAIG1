@@ -75,6 +75,9 @@ Node.prototype.display = function() {
     this.active_material.apply();
 
     for (var i = 0; i < this.component_info.children_primitives.length; i++) {
+        if (this.component_info.children_primitives[i].primitive instanceof Rectangle) {
+            this.component_info.children_primitives[i].primitive.setTexCoords(this.texture.length_s, this.texture.length_t);
+        }
         this.component_info.children_primitives[i].primitive.display();
     }
     

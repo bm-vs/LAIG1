@@ -32,13 +32,25 @@ Rectangle.prototype.initBuffers = function() {
         0, 0, 1
     ];
 
+
     this.texCoords = [
-        0,1,
+        0,this.y2-this.y1,
         0,0,
-        1,1,
-        1,0
+        this.x2-this.x1,this.y2-this.y1,
+        this.x2-this.x1,0
     ];
 
     this.primitiveType=this.scene.gl.TRIANGLES;
     this.initGLBuffers();
+}
+
+Rectangle.prototype.setTexCoords = function(ls,lt) {
+    this.texCoords = [
+        0,(this.y2-this.y1)/lt,
+        0,0,
+        (this.x2-this.x1)/ls,(this.y2-this.y1)/lt,
+        (this.x2-this.x1)/ls,0
+    ];
+
+    this.updateTexCoordsGLBuffers();
 }
