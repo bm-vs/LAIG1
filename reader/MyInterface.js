@@ -60,9 +60,4 @@ MyInterface.prototype.onGraphLoaded = function ()
 
     if (this.scene.light8 != null) { this.lights.add(this.scene, 'light8').name(this.scene.lights_ids[7]); }
     else { this.scene.light8 = false; }
-
-
-
-
-
 }

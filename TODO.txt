@@ -14,5 +14,5 @@ brush up code/check dsx for validity V
 
 documentation
 transformations up/down or down/up?
-textures length_s length_t
+textures length_s length_t 
 

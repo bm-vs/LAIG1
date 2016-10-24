@@ -11,8 +11,8 @@ function Node(parent, component_info, scene) {
         this.matrix = mat4.clone(parent.matrix);
     }
     
-    for (var i = component_info.transformations.length - 1; i >= 0; i--) {
-    //for (var i = 0; i < component_info.transformations.length; i++) {
+    //for (var i = component_info.transformations.length - 1; i >= 0; i--) {
+    for (var i = 0; i < component_info.transformations.length; i++) {
         var m = this.createMatrix(component_info.transformations[i]);
         
         mat4.multiply(this.matrix,this.matrix,m);
@@ -98,7 +98,7 @@ Node.prototype.setActiveMaterial = function() {
         this.active_material.setEmission(m.emission[0], m.emission[1], m.emission[2], m.emission[3]);
         this.active_material.setDiffuse(m.diffuse[0], m.diffuse[1], m.diffuse[2], m.diffuse[3]);
         this.active_material.setSpecular(m.specular[0], m.specular[1], m.specular[2], m.specular[3]);
-        //this.active_material.setTextureWrap(this.texture.length_s, this.texture.length_t);       
+        //this.active_material.setTextureWrap(,);       
     }
     else {
         var m = this.component_info.materials[this.current_material_pos];  
@@ -109,7 +109,7 @@ Node.prototype.setActiveMaterial = function() {
         this.active_material.setEmission(m.emission.r, m.emission.g, m.emission.b, m.emission.a);
         this.active_material.setDiffuse(m.diffuse.r, m.diffuse.g, m.diffuse.b, m.diffuse.a);
         this.active_material.setSpecular(m.specular.r, m.specular.g, m.specular.b, m.specular.a);
-        //this.active_material.setTextureWrap(this.texture.length_s, this.texture.length_t);
+        //this.active_material.setTextureWrap(,);
     }
 
     if (this.texture == "none") {

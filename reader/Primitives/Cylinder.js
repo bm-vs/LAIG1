@@ -14,7 +14,7 @@ Cylinder.prototype = Object.create(CGFobject.prototype);
 Cylinder.prototype.constructor = Cylinder;
 
 Cylinder.prototype.initBuffers = function() {
-    angle = (2*(Math.PI)) / this.slices;
+    var angle = (2*(Math.PI)) / this.slices;
 
     this.vertices = [];
     this.indices = [];
