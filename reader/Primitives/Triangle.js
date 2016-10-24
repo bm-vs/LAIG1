@@ -53,5 +53,21 @@ Triangle.prototype.calcText = function() {
         0,0,
         c,0
     ];
+}
 
+Triangle.prototype.setTexCoords = function(ls,lt) {
+    var a = Math.sqrt((this.x2-this.x1)*(this.x2-this.x1)+(this.y2-this.y1)*(this.y2-this.y1)+(this.z2-this.z1)*(this.z2-this.z1));
+    var b = Math.sqrt((this.x3-this.x2)*(this.x3-this.x2)+(this.y3-this.y2)*(this.y3-this.y2)+(this.z3-this.z2)*(this.z3-this.z2));
+    var c = Math.sqrt((this.x1-this.x3)*(this.x1-this.x3)+(this.y1-this.y3)*(this.y1-this.y3)+(this.z1-this.z3)*(this.z1-this.z3));
+
+    var cosb = (a*a-b*b+c*c)/(2*a*c);
+    var sinb = Math.sqrt(1-cosb*cosb);
+    
+    this.texCoords = [
+        (c-a*cosb)/ls,(a*sinb)/lt,
+        0,0,
+        c/ls,0
+    ];
+
+    this.updateTexCoordsGLBuffers();
 }

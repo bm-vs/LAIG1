@@ -70,7 +70,7 @@
 	    <texture id="logs" file="scenes/textures/logs.jpg" length_s="1" length_t="1" /> 
 	    <texture id="sand" file="scenes/textures/sand.jpg" length_s="1" length_t="1" /> 
 	    <texture id="smoke" file="scenes/textures/smoke.jpg" length_s="1" length_t="1" /> 
-	    <texture id="shingles" file="scenes/textures/shingles.jpg" length_s="2" length_t="1" />        
+	    <texture id="shingles" file="scenes/textures/shingles.jpg" length_s="1" length_t="2" />        
     </textures>
 
 
@@ -135,7 +135,7 @@
         </primitive>
 
         <primitive id="front_wall_tri">
-			<triangle x1="0.0" y1="0.0" z1="0.0" x2="1.0" y2="0.0" z2="0.0" x3="0.5" y3="0.5" z3="0.0" />
+			<triangle x1="0.5" y1="0.5" z1="0.0" x2="0.0" y2="0.0" z2="0.0" x3="1.0" y3="0.0" z3="0.0"/>
         </primitive>
 
         <primitive id="roof">
@@ -232,7 +232,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="inherit" />
+            <texture id="sand" />
 
             <children>
             	<primitiveref id="front_wall_tri" />
@@ -269,7 +269,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="inherit" />
+            <texture id="sand" />
 
             <children>
             	<primitiveref id="front_wall_tri" />
@@ -415,7 +415,7 @@
                 <material id="3" />
             </materials>
 
-            <texture id="shingles" />
+            <texture id="smoke" />
 
             <children>
 				<primitiveref id="smoke" />
@@ -434,7 +434,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="shingles" />
+            <texture id="smoke" />
 
             <children>
 				<primitiveref id="smoke" />
@@ -453,7 +453,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="shingles" />
+            <texture id="smoke" />
 
             <children>
 				<primitiveref id="smoke" />
@@ -472,7 +472,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="shingles" />
+            <texture id="smoke" />
 
             <children>
 				<primitiveref id="smoke" />

@@ -11,8 +11,8 @@ function Node(parent, component_info, scene) {
         this.matrix = mat4.clone(parent.matrix);
     }
     
-    //for (var i = component_info.transformations.length - 1; i >= 0; i--) {
-    for (var i = 0; i < component_info.transformations.length; i++) {
+    for (var i = component_info.transformations.length - 1; i >= 0; i--) {
+    //for (var i = 0; i < component_info.transformations.length; i++) {
         var m = this.createMatrix(component_info.transformations[i]);
         
         mat4.multiply(this.matrix,this.matrix,m);
@@ -75,7 +75,7 @@ Node.prototype.display = function() {
     this.active_material.apply();
 
     for (var i = 0; i < this.component_info.children_primitives.length; i++) {
-        if (this.component_info.children_primitives[i].primitive instanceof Rectangle) {
+        if (this.component_info.children_primitives[i].primitive instanceof Rectangle || this.component_info.children_primitives[i].primitive instanceof Triangle) {
             this.component_info.children_primitives[i].primitive.setTexCoords(this.texture.length_s, this.texture.length_t);
         }
         this.component_info.children_primitives[i].primitive.display();
