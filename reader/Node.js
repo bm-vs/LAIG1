@@ -11,8 +11,8 @@ function Node(parent, component_info, scene) {
         this.matrix = mat4.clone(parent.matrix);
     }
     
-    for (var i = component_info.transformations.length - 1; i >= 0; i--) {
-    //for (var i = 0; i < component_info.transformations.length; i++) {
+    //for (var i = component_info.transformations.length - 1; i >= 0; i--) {
+    for (var i = 0; i < component_info.transformations.length; i++) {
         var m = this.createMatrix(component_info.transformations[i]);
         
         mat4.multiply(this.matrix,this.matrix,m);

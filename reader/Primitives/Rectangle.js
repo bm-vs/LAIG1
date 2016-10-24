@@ -44,6 +44,7 @@ Rectangle.prototype.initBuffers = function() {
     this.initGLBuffers();
 }
 
+// Updates texCoords according to the length_t/length_s of the texture
 Rectangle.prototype.setTexCoords = function(ls,lt) {
     this.texCoords = [
         0,(this.y2-this.y1)/lt,

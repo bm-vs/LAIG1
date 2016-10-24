@@ -5,6 +5,57 @@ function SceneReader(rootElement, scene_graph) {
 }
 
 /*
+Check nodes
+*/
+
+SceneReader.prototype.checkNodes = function() {
+	var elems = this.rootElement.children;
+
+	if (elems.length != 9) {
+		this.scene_graph.onXMLError("Wrong number of tags on dsx.");
+	}
+
+	if (elems[0].nodeName != "scene") {
+		this.scene_graph.onXMLError("Scene tag missing.");
+	}
+
+	if (elems[1].nodeName != "views") {
+		this.scene_graph.onXMLError("Views tag missing.");
+	}
+
+	if (elems[2].nodeName != "illumination") {
+		this.scene_graph.onXMLError("Illumination tag missing.");
+	}
+
+	if (elems[3].nodeName != "lights") {
+		this.scene_graph.onXMLError("Lights tag missing.");
+	}
+
+	if (elems[4].nodeName != "textures") {
+		this.scene_graph.onXMLError("Textures tag missing.");
+	}
+
+	if (elems[5].nodeName != "materials") {
+		this.scene_graph.onXMLError("Materials tag missing.");
+	}
+
+	if (elems[6].nodeName != "transformations") {
+		this.scene_graph.onXMLError("Tranformations tag missing.");
+	}
+
+	if (elems[7].nodeName != "primitives") {
+		this.scene_graph.onXMLError("Primitives tag missing.");
+	}
+
+	if (elems[8].nodeName != "components") {
+		this.scene_graph.onXMLError("Components tag missing.");
+	}
+}
+
+
+
+
+/*
 Read Scene
 */
 SceneReader.prototype.readScene= function() {
@@ -51,7 +102,7 @@ SceneReader.prototype.readViews= function() {
 		this.scene_graph.views[i] = perspective;
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == perspective.id) {
-				throw new Error("Repeated IDs in <views>.");
+				this.scene_graph.onXMLError("Repeated IDs in <views>.");
 			}
 		}
 
@@ -66,7 +117,7 @@ SceneReader.prototype.readViews= function() {
 		}
 	}
 
-	throw new Error("Default view not found.");
+	this.scene_graph.onXMLError("Default view not found.");
 }
 
 /*
@@ -105,7 +156,7 @@ SceneReader.prototype.readLights= function() {
 
 	var n = elems[0].children.length;
 	if (n > 8) {
-		throw Error("Too many lights. Max. handled: 8.");
+		this.scene_graph.onXMLError("Too many lights. Max. handled: 8.");
 	}
 	
 	var subelems = elems[0].getElementsByTagName("omni");
@@ -138,7 +189,7 @@ SceneReader.prototype.readLights= function() {
 		this.scene_graph.omni_lights[i] = light;
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == light.id) {
-				throw new Error("Repeated IDs in <lights>.");
+				this.scene_graph.onXMLError("Repeated IDs in <lights>.");
 			}
 		}
 		ids[n] = light.id;
@@ -185,7 +236,7 @@ SceneReader.prototype.readLights= function() {
 
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == light.id) {
-				throw new Error("Repeated IDs in <lights>.");
+				this.scene_graph.onXMLError("Repeated IDs in <lights>.");
 			}
 		}
 		ids[n] = light.id;
@@ -219,7 +270,7 @@ SceneReader.prototype.readTextures= function() {
 
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == texture.id) {
-				throw new Error("Repeated IDs in <textures>.");
+				this.scene_graph.onXMLError("Repeated IDs in <textures>.");
 			}
 		}
 		ids[i] = texture.id;
@@ -233,10 +284,7 @@ SceneReader.prototype.readMaterials= function() {
 	var ids = [];
     
     elems = this.rootElement.getElementsByTagName("materials");
-	/*
-	error = this.checkElem(elems, "materials");
-	if (error != null) {return error;}*/
-
+    
 	var subelems = elems[0].getElementsByTagName("material");
 	for (var i = 0; i < subelems.length; i++) {
 		var material = new MaterialInfo();
@@ -272,7 +320,7 @@ SceneReader.prototype.readMaterials= function() {
 
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == material.id) {
-				throw new Error("Repeated IDs in <materials>.");
+				this.scene_graph.onXMLError("Repeated IDs in <materials>.");
 			}
 		}
 		ids[i] = material.id;
@@ -320,7 +368,7 @@ SceneReader.prototype.readTransformations= function() {
 
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == transformation.id) {
-				throw new Error("Repeated IDs in <transformations>.");
+				this.scene_graph.onXMLError("Repeated IDs in <transformations>.");
 			}
 		}
 		ids[i] = transformation.id;
@@ -346,7 +394,7 @@ SceneReader.prototype.readPrimitives= function() {
 		var prim = subelems[i].children;
 
 		if (prim.length != 1) {
-			throw new Error("More than one primitive in <primitive> block");
+			this.scene_graph.onXMLError("More than one primitive in <primitive> block");
 			break;
 		}
 
@@ -411,7 +459,7 @@ SceneReader.prototype.readPrimitives= function() {
 
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == primitive.id) {
-				throw new Error("Repeated IDs in <primitives>.");
+				this.scene_graph.onXMLError("Repeated IDs in <primitives>.");
 			}
 		}
 		ids[i] = primitive.id;
@@ -546,7 +594,7 @@ SceneReader.prototype.readComponents= function() {
 
 		for (var j = 0; j < ids.length; j++) {
 			if (ids[j] == component.id) {
-				throw new Error("Repeated IDs in <components>.");
+				this.scene_graph.onXMLError("Repeated IDs in <components>.");
 			}
 		}
 		ids[i] = component.id;
@@ -588,6 +636,7 @@ SceneReader.prototype.checkElem= function(elems, name) {
 
 /*
 Read x,y,z
+suffix used for case where there x1,y1... instead of x,y...
 */
 SceneReader.prototype.readXYZ= function(vector,node,suffix) {
 	vector.x = this.reader.getFloat(node,"x"+suffix, false);

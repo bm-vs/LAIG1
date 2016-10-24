@@ -82,6 +82,7 @@ MySceneGraph.prototype.parseDSX= function(rootElement) {
 
 	var scene_reader = new SceneReader(rootElement, this);
 	
+	scene_reader.checkNodes();
 	scene_reader.readScene();
 	scene_reader.readViews();
 	scene_reader.readIllumination(this.illumination_info);

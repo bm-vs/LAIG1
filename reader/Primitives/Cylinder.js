@@ -21,6 +21,7 @@ Cylinder.prototype.initBuffers = function() {
     this.normals = [];
     this.texCoords = [];
 
+    // Cylinder
     for (var stack = 0; stack <= this.stacks; stack++) {
        for (var slice = 0; slice < this.slices; slice++) {
            var h = this.height/this.stacks * stack;
@@ -55,6 +56,8 @@ Cylinder.prototype.initBuffers = function() {
         }
     }
 
+
+    // Covers
     var vsize = this.vertices.length/3 - 1;
 
     this.vertices.push(0,0,0);
@@ -111,6 +114,7 @@ Cylinder.prototype.initBuffers = function() {
     this.initGLBuffers();
 }
 
+// Returns the radius of the cylinder/cone at given stack
 Cylinder.prototype.radius = function(stack) {
     var x = this.height/this.stacks * stack;
     var m = (this.top-this.base)/this.height;

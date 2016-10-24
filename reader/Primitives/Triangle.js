@@ -40,6 +40,7 @@ Triangle.prototype.initBuffers = function() {
     this.initGLBuffers();
 }
 
+
 Triangle.prototype.calcText = function() {
     var a = Math.sqrt((this.x2-this.x1)*(this.x2-this.x1)+(this.y2-this.y1)*(this.y2-this.y1)+(this.z2-this.z1)*(this.z2-this.z1));
     var b = Math.sqrt((this.x3-this.x2)*(this.x3-this.x2)+(this.y3-this.y2)*(this.y3-this.y2)+(this.z3-this.z2)*(this.z3-this.z2));
@@ -55,6 +56,7 @@ Triangle.prototype.calcText = function() {
     ];
 }
 
+// Updates texCoords according to the length_t/length_s of the texture
 Triangle.prototype.setTexCoords = function(ls,lt) {
     var a = Math.sqrt((this.x2-this.x1)*(this.x2-this.x1)+(this.y2-this.y1)*(this.y2-this.y1)+(this.z2-this.z1)*(this.z2-this.z1));
     var b = Math.sqrt((this.x3-this.x2)*(this.x3-this.x2)+(this.y3-this.y2)*(this.y3-this.y2)+(this.z3-this.z2)*(this.z3-this.z2));
